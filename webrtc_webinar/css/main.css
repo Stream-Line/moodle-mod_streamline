@@ -1,0 +1,13 @@
+/*	main style sheet
+	by alex bennett
+*/
+
+#remoteVideo video {
+    height: 300px;
+    vertical-align: left;
+}
+
+#localVideo {
+    height: 300px;
+    vertical-align: left;
+}

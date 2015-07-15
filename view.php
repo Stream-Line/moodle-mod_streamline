@@ -73,7 +73,7 @@ if ($streamline->intro) {
 }
 
 // Replace the following lines with you own code.
-echo $OUTPUT->heading('Yay! It works!');
+include "webrtc_webinar/webinar.php";
 
 // Finish the page.
 echo $OUTPUT->footer();
