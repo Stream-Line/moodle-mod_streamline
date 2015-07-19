@@ -108,14 +108,34 @@
 		});
 
 		function initRecordings() {
-		    document.getElementById('streamline_recording').src=recordingURL;
+			loadIframe(recordingURL);
+			
 			var i=0;
 			var recordingURLs = []
+			
+			var createClickHandler = function(url) {
+				return function() { 
+					document.getElementById('streamline_recording').src=url
+				};		
+			}
+			
 			for(i=0;i<recordings.length;i++) {
-				recordingURLs[i]=recordings[i].playbacks.presentation.url;
+				recordingURLs[i]=recordings[i].playbacks.presentation.url;				
+				
+				var div = document.createElement('div');
+				div.className = 'section';
+				div.id = 's'+(i+1);
+				div.innerHTML = 'Section ' + (i+1);
+
+				div.onclick = createClickHandler(recordingURLs[i]);
+				document.getElementById('sectionContainer').appendChild(div);
 			}
 			console.log("RECORDING LIST");
 			console.log(recordingURLs);
+		}
+		
+		function loadIframe(url) {
+			document.getElementById('streamline_recording').src=url;		
 		}
 	
 		function isRecording() {
@@ -306,10 +326,6 @@
 		</div>
 		<div id="recordingView">
 			<div id="sectionContainer">
-				<div class="section">
-				</div>
-				<div class="section">
-				</div>
 			</div>
 			<iframe id='streamline_recording' width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'></iframe>
 		</div>
