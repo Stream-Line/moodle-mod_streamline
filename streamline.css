@@ -76,3 +76,26 @@
 	background-color: #373a47;
 	cursor: pointer;
 }
+
+#sectionContainer {
+	width: 100%;
+	height: 50px;
+}
+
+#sectionContainer .section {
+	box-sizing:border-box; 
+	background-color: #F0F0F0;
+	border: 1px solid #373a47;
+	width: 10%;
+	margin: 5px;
+	height: 40px;
+	border-radius: 5px;
+	float: left;
+}
+
+#sectionContainer .section:hover  {
+	border: 1px solid #FFFFFF;
+	color: #FFFFFF;
+	background-color: #373a47;
+	cursor: pointer;
+}
