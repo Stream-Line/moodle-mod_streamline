@@ -82,7 +82,7 @@
 				if(recordingURL != "") {
 					console.log("Recording Response");
 					console.log(recordings);
-					$("#recordingView").html("<iframe class='recording' width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='"+recordingURL+"'></iframe>");  
+					initRecordings();
 				}
 				else { // This runs when there is error
 					$("#recordingView").html("No recordings available for this lecture");
@@ -96,7 +96,7 @@
 				$("#recordingView").css("display", "block");
 				$("#liveView").css("display", "none");
 				$("#optionView").css("display", "none")		
-				$("#recordingView").html("<iframe class='recording' width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='"+recordingURL+"'></iframe>");  
+				initRecordings();
 			});
 		
 			$(".live_button").click(function() {
@@ -107,6 +107,16 @@
 			});
 		});
 
+		function initRecordings() {
+		    document.getElementById('streamline_recording').src=recordingURL;
+			var i=0;
+			var recordingURLs = []
+			for(i=0;i<recordings.length;i++) {
+				recordingURLs[i]=recordings[i].playbacks.presentation.url;
+			}
+			console.log("RECORDING LIST");
+			console.log(recordingURLs);
+		}
 	
 		function isRecording() {
 				try{
@@ -258,6 +268,7 @@
       </form>
     </div>
 -->
+	
 	<div id="middleContainer">
 		<div id="liveView">
 			<div id="flashclient" style="background-color:#EEEEEE;height:100%;width:100%;float:left;">
@@ -293,7 +304,15 @@
 		-->
 			</div>
 		</div>
-		<div id="recordingView"></div>
+		<div id="recordingView">
+			<div id="sectionContainer">
+				<div class="section">
+				</div>
+				<div class="section">
+				</div>
+			</div>
+			<iframe id='streamline_recording' width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'></iframe>
+		</div>
 		<div id="optionView">
 			<div class = "option_button playback_button">View Recording</div>
 			<div class = "option_button live_button">Start Session</div>
@@ -302,6 +321,7 @@
 	<div id="rightContainer">
 		Placeholder for Chat
 	</div>
+
     <div id="update-display"/>
     <div id="notifications" aria-live="polite" role="region" aria-label="Chat Notifications"></div>
   </body>
