@@ -61,7 +61,7 @@
 		// A $( document ).ready() block.
 
 		$( document ).ready(function() {
-		
+					
 			BBBSessionRunning();
 			var hasRecording = isRecording(); 
 
@@ -116,6 +116,11 @@
 				$("#top_liveView").css("display", "block");
 
 			});
+			
+			//Scroll to the sessionRecording
+			$('html, body').animate({
+				scrollTop: $('#region-main').offset().top-50}, 
+			1000);
 		});
 		
 		function reSizeFlashClient(value) {
