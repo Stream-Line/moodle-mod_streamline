@@ -29,6 +29,32 @@
 
 }
 
+#top_liveView {
+	width: 100%;
+	text-align: center;
+	margin: 2px;
+	background-color: #F0F0F0;
+	display: none;
+}
+
+#recordStatus {
+  padding: 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.recordStatus_On{
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+
+.recordStatus_Off {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
 #liveView {
 	height: 100%;
 }

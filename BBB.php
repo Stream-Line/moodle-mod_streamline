@@ -61,6 +61,7 @@
 		// A $( document ).ready() block.
 
 		$( document ).ready(function() {
+		
 			BBBSessionRunning();
 			var hasRecording = isRecording(); 
 
@@ -69,16 +70,18 @@
 				$("#liveView").css("height", "0px");
 				$("#recordingView").css("display", "none");	
 				$("#optionView").css("visibility", "visible");
+				$("#top_liveView").css("display", "none");
 			} else if(sessionRunning || administrator || moderator) {
 				console.log("loading live screen");
 				$("#liveView").css("height", "100%");
 				$("#recordingView").css("display", "none");
-				$("#optionView").css("display", "none")				
+				$("#optionView").css("display", "none");
 			} else {
 				console.log("loading playback screen");
 				$("#liveView").css("display", "none");
 				$("#optionView").css("display", "none");
 				$("#recordingView").css("visibility", "visible");
+				$("#top_liveView").css("display", "none");
 				if(recordingURL != "") {
 					console.log("Recording Response");
 					console.log(recordings);
@@ -95,7 +98,8 @@
 				console.log("Clicked Live Button .. now loading live screen");
 				$("#recordingView").css("display", "block");
 				$("#liveView").css("display", "none");
-				$("#optionView").css("display", "none")		
+				$("#optionView").css("display", "none");
+				$("#top_liveView").css("display", "none");
 				initRecordings();
 			});
 		
@@ -109,6 +113,8 @@
 				
 				$("#recordingView").css("display", "none");
 				$("#optionView").css("display", "none")		
+				$("#top_liveView").css("display", "block");
+
 			});
 		});
 		
@@ -207,6 +213,23 @@
 			});
 		}
 		
+		var sessionRecording = false;
+		function BBBRecordRequest() {
+			if(sessionRecording) {
+				$("#recordStatus").removeClass("recordStatus_On");
+				$("#recordStatus").addClass("recordStatus_Off");
+				$("#recordStatus").html("This Lecture is not being recorded");
+				console.log("Recording has been switched off");
+				sessionRecording = false;			
+			} else {
+				$("#recordStatus").removeClass("recordStatus_Off");
+				$("#recordStatus").addClass("recordStatus_On");
+				$("#recordStatus").html("Recording currently in progress");
+				console.log("Recording has been switched on");
+				sessionRecording = true;
+			}
+		}
+		
 		</script>
 	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -259,7 +282,7 @@
     </script>
 </head>
   <body>
-  <!--
+ <!--
     <div id="controls">
       <button type="button" onclick="registerListeners()">Listen for Events</button>
       <button type="button" onclick="displayBBBClient()">Show BBB Client</button>
@@ -271,6 +294,7 @@
       <button type="button" onclick="leaveVoiceConference2()">Leave Voice</button>
       <button type="button" onclick="getMyUserID()">Get My UserID</button>
       <button type="button" onclick="getMeetingID()">Get MeetingID</button>
+      <button type="button" onclick="getRecordingStatus()">Get Recording Status</button>
       <button type="button" onclick="getMyRoleAsynch()">Get My Role Asynch</button>
       <button type="button" onclick="getMyRoleSynch()">Get My Role Synch</button>
       <button type="button" onclick="muteMe()">Mute Me</button>
@@ -298,7 +322,10 @@
       </form>
     </div>
 -->
-	
+	<div id ="top_liveView">
+		<div id="recordStatus" class="recordStatus_Off"> This Lecture is not being recorded </div>
+		<!--div id="sectionContainer"><div class="section"></div><div class="section"></div></div-->
+	</div>
 	<div id="middleContainer">
 		<div id="liveView">
 			<div id="flashclient" style="background-color:#EEEEEE;height:100%;width:100%;float:left;">
@@ -335,8 +362,7 @@
 			</div>
 		</div>
 		<div id="recordingView">
-			<div id="sectionContainer">
-			</div>
+			<div id="sectionContainer"></div>
 			<iframe id='streamline_recording' width='100%' height='100%' frameborder='0' scrolling='no' marginheight='0' marginwidth='0'></iframe>
 		</div>
 		<div id="optionView">

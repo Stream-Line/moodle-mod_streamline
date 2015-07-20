@@ -227,6 +227,14 @@ var getMeetingID = function() {
   });
 }
 
+var getRecordingStatus = function() {
+  BBB.recordingRequest(function(recordingStatus) {
+    console.log("Recording Status = [" + recordingStatus + "]");
+	console.log(recordingStatus);
+	
+  });
+}
+
 var raiseHand = function(raiseHand) {
   BBB.raiseHand(raiseHand);
 }

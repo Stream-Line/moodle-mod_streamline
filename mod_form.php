@@ -64,7 +64,12 @@ class mod_streamline_mod_form extends moodleform_mod {
 
 		$courseName = $course->shortname;
 		$section = optional_param('section',0,PARAM_INT);
-		print_object($url);
+
+		$record = $DB->get_records_sql('SELECT * FROM {modules} WHERE name=?', array('streamline'));
+		print_object($record);
+		$count = count_records_sql("SELECT COUNT(*) FROM {modules} WHERE name='streamline'");
+		print_object($count);
+
 		$week = ": Week ";
 		$sessionName = $courseName.$week.$section;
         $mform->setDefault( 'name', $sessionName );

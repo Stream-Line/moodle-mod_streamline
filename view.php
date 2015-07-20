@@ -136,7 +136,7 @@ $bbbsession['cm'] = $cm;
 
 //Operation URLs
 $bbbsession['courseURL'] = $CFG->wwwroot.'/course/view.php?id='.$streamline->course;
-$bbbsession['logoutURL'] = $CFG->wwwroot.'/mod/streamline/view_end.php?id='.$id;
+$bbbsession['logoutURL'] = $CFG->wwwroot.'/course/view.php?id='.$course->id;
 
 //Metadata
 $bbbsession['origin'] = "Moodle";
