@@ -102,10 +102,20 @@
 			$(".live_button").click(function() {
 				console.log("Clicked Live Button .. now loading live screen");
 				$("#liveView").css("height", "100%");
+				
+				//TODO: find better method to fix the BBB overflow issue
+				setTimeout(function() {reSizeFlashClient("99%");}, 3000);
+				setTimeout(function() {reSizeFlashClient("100%");}, 6000);
+				
 				$("#recordingView").css("display", "none");
 				$("#optionView").css("display", "none")		
 			});
 		});
+		
+		function reSizeFlashClient(value) {
+			document.getElementById("flashclient").style.width = value;		
+			console.log("Setting Flash Client Width to: " + value);			
+		}
 
 		function initRecordings() {
 			loadIframe(recordingURL);
