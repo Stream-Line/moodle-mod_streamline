@@ -63,21 +63,21 @@ class mod_streamline_mod_form extends moodleform_mod {
         $mform->setType('name', PARAM_TEXT);
 
 		$courseName = $course->shortname;
-		$section = optional_param('section',0,PARAM_INT);
+		//$section = optional_param('section',0,PARAM_INT); Marked for cleanup
 
-		$record = $DB->get_records_sql('SELECT * FROM {modules} WHERE name=?', array('streamline'));
-		print_object($record);
-		$count = count_records_sql("SELECT COUNT(*) FROM {modules} WHERE name='streamline'");
-		print_object($count);
-
-		$week = ": Week ";
-		$sessionName = $courseName.$week.$section;
+		//Get the number of current streamline sessions in this course
+		$record = $DB->get_record_sql('SELECT * FROM {modules} WHERE name=?', array('streamline'));
+		$records = $DB->get_records_sql('SELECT * FROM {course_modules} WHERE course=? AND module=?', array($course->id, $record->id));
+		$count = count($records)+1;
+		
+		$week = "Lecture ";
+		$sessionName = $week.$count;
         $mform->setDefault( 'name', $sessionName );
 		
 		
         $mform->addElement('textarea', 'welcome', get_string('mod_form_field_welcome','bigbluebuttonbn'), 'wrap="virtual" rows="5" cols="60"');
         $mform->addHelpButton('welcome', 'mod_form_field_welcome', 'bigbluebuttonbn');
-        $mform->setDefault( 'welcome', "Welcome to the lecture for week ".$section );
+        $mform->setDefault( 'welcome', "Welcome to lecture ".$count." for ".$courseName );
 
 
         //$mform->addElement('text', 'voicebridge', get_string('mod_form_field_voicebridge','bigbluebuttonbn'), 'maxlength="5" size="10"' );
