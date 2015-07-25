@@ -425,16 +425,18 @@
 	}
 	
 	$(document).keyup(function(e) {
-		 if (e.keyCode == 27) { // escape key maps to keycode `27`
+		e=(e||window.event);  
+		 if (e.keyCode == 27 || e.keyCode == 122) { // escape key maps to keycode `27`
 			// <DO YOUR WORK HERE>
+			try{e.preventDefault();}//Non-IE
+			catch(x){e.returnValue=false;}//IE
 			var elem = document.getElementById("middleContainer");
 			elem.style.width = '75%';
 			elem.style.height = '650px';
 			switchLayout('StreamLine')
 		}
 	});
-	
-	
+
 	$('.leave_button').click(function() {
 		//Add logout/leave javascript here
 	});
