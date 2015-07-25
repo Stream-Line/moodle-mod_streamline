@@ -8,6 +8,7 @@
 	min-height: 650px;
 
 }
+
 #middleContainer {
 	box-sizing:border-box; 
 	width: 75%;
@@ -24,9 +25,14 @@
 	height: 650px;
 	position: relative;
 	float: left;
-	border: 5px solid #DFDFDF;
 	min-height: 650px;
+}
 
+#chat_module {
+	box-sizing: border-box; 
+	width: 100%;
+	height: 600px;
+	border: 5px solid #DFDFDF;
 }
 
 #top_liveView {
@@ -126,4 +132,55 @@
 	color: #FFFFFF;
 	background-color: #373a47;
 	cursor: pointer;
+}
+
+#webinar_buttons {
+	box-sizing:border-box; 
+	width: 100%;
+	height: 50px;
+	padding-left: 1%;
+}
+
+#std_button {
+	box-sizing: border-box;
+	width: 33%;
+	height: 50px;
+	float:left;
+
+}
+
+.fullscreen_button {
+    background:url(./images/fullscreen_button.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}
+
+.quiz_button {
+    background:url(./images/quiz_button.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}	
+
+.leave_button {
+    background:url(./images/leave_button.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}
+
+.fullscreen_button:hover {
+    background:url(./images/fullscreen_button_down.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}
+
+.quiz_button:hover {
+    background:url(./images/quiz_button_down.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}	
+
+.leave_button:hover {
+    background:url(./images/leave_button_down.PNG) no-repeat;
+	background-size: 100%;
+	height: 65vw;
 }

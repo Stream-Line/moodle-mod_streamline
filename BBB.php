@@ -76,6 +76,7 @@
 				$("#liveView").css("height", "100%");
 				$("#recordingView").css("display", "none");
 				$("#optionView").css("display", "none");
+				$("#top_liveView").css("display", "block");
 			} else {
 				console.log("loading playback screen");
 				$("#liveView").css("display", "none");
@@ -234,7 +235,7 @@
 				sessionRecording = true;
 			}
 		}
-		
+				
 		</script>
 	
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
@@ -376,12 +377,74 @@
 		</div>
 	</div>
 	<div id="rightContainer">
-		Placeholder for Chat
+		<div id="webinar_buttons">
+			<div id="std_button" class="fullscreen_button"></div>
+			<div id="std_button" class="quiz_button"></div>
+			<div id="std_button" class="leave_button"></div>
+			<!-- input type="button" value="Full Screen" onclick="toggleFullScreen(document.getElementById('middleContainer'))" -->
+		</div>
+		<div id="chat_module">
+				Placeholder for Chat
+		</div>
 	</div>
 
     <div id="update-display"/>
     <div id="notifications" aria-live="polite" role="region" aria-label="Chat Notifications"></div>
   </body>
-</html>
 
+  <script>
+	function toggleFullScreen(elem) {
+		if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
+			console.log("Setting to fullscreen mode");
+			elem.style.width = '100%';
+			elem.style.height = '100%';
+			if (elem.requestFullScreen) {
+				elem.requestFullScreen();
+			} else if (elem.mozRequestFullScreen) {
+				elem.mozRequestFullScreen();
+			} else if (elem.webkitRequestFullScreen) {
+				elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+			} else if (elem.msRequestFullscreen) {
+				elem.msRequestFullscreen();
+			}
+			switchLayout('StreamLine Lecture');
+		} else {		
+			console.log("Setting to normal mode");
+			elem.style.width = '75%';
+			elem.style.height = '650px';
+			if (document.cancelFullScreen) {
+				document.cancelFullScreen();
+			} else if (document.mozCancelFullScreen) {
+				document.mozCancelFullScreen();
+			} else if (document.webkitCancelFullScreen) {
+				document.webkitCancelFullScreen();
+			} else if (document.msExitFullscreen) {
+				document.msExitFullscreen();
+			}
+		}
+	}
+	
+	$(document).keyup(function(e) {
+		 if (e.keyCode == 27) { // escape key maps to keycode `27`
+			// <DO YOUR WORK HERE>
+			var elem = document.getElementById("middleContainer");
+			elem.style.width = '75%';
+			elem.style.height = '650px';
+			switchLayout('StreamLine')
+		}
+	});
+	
+	
+	$('.leave_button').click(function() {
+		//Add logout/leave javascript here
+	});
+	$('.quiz_button').click(function() {
+		//Add quiz javascript here
+	});
+	$('.fullscreen_button').click(function() {
+		toggleFullScreen(document.getElementById('middleContainer'));
+	});
+  </script>
+  
+</html>
 
