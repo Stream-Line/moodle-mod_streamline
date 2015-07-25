@@ -384,7 +384,8 @@
 			<!-- input type="button" value="Full Screen" onclick="toggleFullScreen(document.getElementById('middleContainer'))" -->
 		</div>
 		<div id="chat_module">
-				Placeholder for Chat
+			<ul id="chat"">
+			</ul>  
 		</div>
 	</div>
 
