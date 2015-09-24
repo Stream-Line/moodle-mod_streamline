@@ -1,7 +1,3 @@
-var prefix = ""; // variable to hold whether post is new or a reply
-var input, btn_new, cid, uid; // global variables for reference
-
-var postIndex = 0; // temp variable to hold number of posts
 /*
 ==================================
 		Socket.io handlers
@@ -39,6 +35,11 @@ socket.on('loadedF', function(history){
 ===============================================
 */
 
+var prefix = ""; // variable to hold whether post is new or a reply
+var cid, uid; // global variables for reference
+
+var postIndex = 0; // temp variable to hold number of posts
+
 /*
 	Initialises global variables for ease of use. Course ID and User ID are
 	passed as parameters as they are required to be encoded from php.
@@ -46,25 +47,43 @@ socket.on('loadedF', function(history){
 function init(courseid, userid){
 	this.cid = courseid;
 	this.uid = userid;
-	this.input = document.getElementById("forum_input");
-	this.btn_new = document.getElementById("btn_new_post");
-	input.style.display = "none";
-	$("#btn-send").onclick("PostF()");
+	setupEventHandlers();
+	getUser(uid, "displaypicture", function(code){
+		$("#forum-user-dp-main").html(code);
+		$("#forum-user-dp-reply").html(code);
+	});
 }
 
 /*
-	Called when the user clicks New Post. Changes the location of the text input
-	and Send button to the top of the forum, hides the New Post button and sets
-	the prefix of the users message to new rather than a reply.
+	Adds the event handlers to the buttons and textareas in Forums.php
 */
-function NewPost(){
-	// set displays
-	input.style.display = "block";
-	btn_new.style.display = "none";
+function setupEventHandlers(){
+	// setup input for new posts
+	$("#btn-send-main").click(function(){
+		prefix = "n|"; // set prefix to new post
+		PostF($("#forum-textarea-main").val());
+		$("#forum-input-btns-main").addClass("hidden");
+		$("#forum-textarea-main").val("");
+	});
+	$("#forum-textarea-main").focus(function(){
+		var elem = document.getElementById("forum-input-btns-main");
+		if(elem.classList.contains("hidden"))
+			elem.classList.remove("hidden");
+	});
+	$("#btn-cancel-main").click(function(){
+		$("#forum-input-btns-main").addClass("hidden");
+	});
 	
-	$("#forum_parent").prepend(input); // append to top of forum
-	
-	prefix = "n|"; // set prefix to new post
+	// setup input for replies
+	$("#btn-send-reply").click(function(){
+		prefix = $(this).parent().parent().parent().attr("id") + "|"; // set prefix to post being replied
+		PostF($("#forum-textarea-reply").val());
+		$("#forum-input-reply").addClass("hidden");
+		$("#forum-textarea-reply").val("");
+	});
+	$("#btn-cancel-reply").click(function(){
+		$("#forum-input-reply").addClass("hidden");
+	});
 }
 
 /*
@@ -73,39 +92,28 @@ function NewPost(){
 	post pid and sets the prefix to pid.
 */
 function Reply(pid){
-	// set displays
-	input.style.display = "block";
-	//btn_new.style.display = "none";
+	$("#forum-input-reply").insertAfter($("#" + pid).children("button")[0]);
 	
-	//console.log($("#" + pid).children);
-	//$("#" + pid).children[1].insertAdjacentElement("afterEnd", input);
-	//parent.insertBefore(input, parent.children[2]); // append chat to div of message being replied
-	$("#" + pid).append(input);
-	
-	prefix = pid + "|"; // set prefix to post being replied
+	var elem = document.getElementById("forum-input-reply");
+	if(elem.classList.contains("hidden"))
+		elem.classList.remove("hidden"); // show elem if hidden
 }
 
 /*
 	Called when the user clicks send. Sends the formatted post to the server
 	and clears the text input. It also hides the 
 */
-function PostF(){
+function PostF(message){
 	// !! stuval is going to have to change to student id
 	//$socket.emit('Forum', $('#ForumSend').val(), cid, stuval, cid.toString());
-	var post = prefix + $('#ForumSend').val() + "|p" + postIndex + "+" + uid;
+	var post = prefix + message + "|p" + postIndex + "+" + uid;
 	
 	var sid = post.substr(post.lastIndexOf("+")+1);
 	// send an ajax request for users fullname, then format the post
 	getUser(sid, "fullname", function(name){
 		formatPost(post, sid, name);
 	});
-	
-	$('#ForumSend').val(""); // clear input field
-	//postIndex++; // increment postIndex (temp line)
-	
-	// reset displays
-	input.style.display = "none";
-	btn_new.style.display = "block";
+	postIndex++; // increment postIndex (temp line)
 }
 
 /* */
@@ -128,7 +136,7 @@ function formatPost(post, sid, name){
         $('#forum-area').prepend(div);
     } else { // reply post
         $('#'+post.substring(0, post.indexOf("|"))).append(div);
-        div.style.marginLeft = "5%";
+        div.classList.add("post-reply");
     }
 }
 
@@ -144,7 +152,7 @@ function Post(pid, message, sid, name){
 	div.appendChild(newUserDP(sid)); // append display picture of user
 	div.appendChild(newPostContents(name, message)); // append the contents of the post 
 	div.appendChild(newReplyButton(pid)); // append reply button
-    
+	
     return div;
 }
 
@@ -168,17 +176,29 @@ function newUserDP(sid){
 	Creates a formatted div that contains the username and message.
 	It is formatted to sit next to a post-dp div. 
 */
-function newPostContents(username, message){
+function newPostContents(name, message){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-contents");
 	
-	var udiv = document.createElement("div"); // username div
-	udiv.classList.add("post-username");
-	udiv.textContent = username;
-	div.appendChild(udiv);
+	var hdiv = document.createElement("div"); // header div
+	hdiv.classList.add("post-contents-header");
+	
+	var user = document.createElement("a");
+	user.href = ""; // get user profile page using getUser
+	user.textContent = name;
+	hdiv.appendChild(user);
+	
+	var date = document.createElement("p");
+	date.classList.add("post-date");
+	date.textContent = "12:55 21/08/15"; // replace with time parameter
+	hdiv.appendChild(date);
+	
+	div.appendChild(hdiv);
 	
 	var mdiv = document.createElement("div"); // message div
-	mdiv.textContent = message;
+	var msg = document.createElement("p");
+	msg.textContent = message;
+	mdiv.appendChild(msg);
 	div.appendChild(mdiv);
 	
 	return div;
@@ -190,25 +210,26 @@ function newPostContents(username, message){
 function newReplyButton(pid){
 	var reply_btn = document.createElement("button");
 	reply_btn.classList.add("btn-blue");
-    reply_btn.classList.add("btn-reply");
     reply_btn.textContent = "Reply";
     reply_btn.onclick = function() { Reply(pid); };
     
     return reply_btn;
 }
 
-/* ideal forum post div
-    <div id="p001" style="overflow: auto; clear: right;">
-		<div style="float: left; width: auto; ">
-			<img src="https://v.dreamwidth.org/97845/324" width="50px" height="50px" />
+/*	ideal forum post div
+    <div id="p001" class="forum-post">
+		<div class="post-dp">
+			<img src="https://v.dreamwidth.org/97845/324" />
 		</div>
-		<div style="margin-left: 50px;">
-			<div>
+		<div class="post-contents">
+			<div id="post-contents-header">
 				<a href="user/profile.html">Username</a>
-				<p style="font-size: 0.8em; color: grey;">12:55 21/08/15</p>
+				<p class="post-date">12:55 21/08/15</p>
 			</div>
-			<div>This is a test message</div>
+			<div>
+			    <p>This is a test message</p>
+			</div>
 		</div>
-		<button class="btn-blue" style="width: inherit; float: right;" onclick="Reply(p001)">Reply</button>
+		<button class="btn-blue" onclick="Reply(p001)">Reply</button>
 	</div>
 */

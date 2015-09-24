@@ -1,7 +1,21 @@
-#date{
-    float: left;
-    color: black;
-    font-size: 10px;
+.forum-input{
+    margin-left: 60px;
+    padding: 2px;
+}
+
+.forum-input textarea{
+    width: 100%;
+    padding: 0px;
+    word-wrap: break-word;
+}
+
+.input-buttons{
+    float: right;
+}
+
+.input-buttons button{
+    width: auto;
+    display: inline;
 }
 
 .forum-post{
@@ -12,23 +26,37 @@
 .post-dp{
     float: left;
     width: auto;
+    margin: 5px;
 }
 
 .post-dp img{
     width: 50px;
     height: 50px;
+    
 }
 
 .post-contents{
-    margin-left: 50px;
+    margin-left: 60px;
 }
+
+.post-contents-header a, p{
+    display: inline;
+} 
 
 .post-username{
     font: bold;
     color: blue;
 }
 
-.btn-reply{
-    width: inherit;
-    float: right;
+.post-date{
+    color: grey;
+    font-size: 0.8em;
+}
+
+.post-reply{
+    margin-left: 60px;
+}
+
+.forum-hidden{
+    display: none;
 }
