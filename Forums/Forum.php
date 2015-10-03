@@ -32,6 +32,6 @@
 </div>
 
 <script type="text/javascript">
-	init(<?= json_encode($cm->id) ?>, <?= json_encode($USER->id) ?>);
+	init(<?= json_encode($cm->id) ?>, <?= json_encode(bin2hex($USER->id)) ?>, <?= json_encode($USER->id) ?>);
 </script>
 

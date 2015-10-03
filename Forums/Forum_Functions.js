@@ -9,23 +9,29 @@
     Updates the page without having to refresh.
 */
 socket.on('forumback', function(post){
-	var sid = post.substr(post.lastIndexOf("+")+1);
+	formatPost(post);
+	/*
+	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
 	// send an ajax request for users fullname, then format the post
 	getUser(sid, "fullname", function(name){
-		formatPost(post, post.substr(post.lastIndexOf("+")+1), name);
+		formatPost(post, sid, name);
 	});
+	*/
 });
 
 /*
     Gets triggered when page is loaded and loads in the forum history.
 */
 socket.on('loadedF', function(history){
-	for(var post in history){
-		var sid = post.substr(post.lastIndexOf("+")+1);
+	for(var i in history){
+		formatPost(history[i]);
+		/*
+		var sid = history[i].substring(history[i].lastIndexOf("+")+1, history[i].lastIndexOf("@"));
 		// send an ajax request for users fullname, then format the post
 		getUser(sid, "fullname", function(name){
-			formatPost(post, post.substr(post.lastIndexOf("+")+1), name);
+			formatPost(history[i], sid, name);
 		});
+		*/
 	}
 });
 
@@ -36,16 +42,17 @@ socket.on('loadedF', function(history){
 */
 
 var prefix = ""; // variable to hold whether post is new or a reply
-var cid, uid; // global variables for reference
+var cid, huid, uid; // global variables for reference
 
-var postIndex = 0; // temp variable to hold number of posts
+//var postIndex = 0; // temp variable to hold number of posts
 
 /*
 	Initialises global variables for ease of use. Course ID and User ID are
 	passed as parameters as they are required to be encoded from php.
 */
-function init(courseid, userid){
+function init(courseid, hasheduserid, userid){
 	this.cid = courseid;
+	this.huid = hasheduserid;
 	this.uid = userid;
 	setupEventHandlers();
 	getUser(uid, "displaypicture", function(code){
@@ -104,53 +111,57 @@ function Reply(pid){
 	and clears the text input. It also hides the 
 */
 function PostF(message){
-	// !! stuval is going to have to change to student id
-	//$socket.emit('Forum', $('#ForumSend').val(), cid, stuval, cid.toString());
-	var post = prefix + message + "|p" + postIndex + "+" + uid;
-	
-	var sid = post.substr(post.lastIndexOf("+")+1);
-	// send an ajax request for users fullname, then format the post
-	getUser(sid, "fullname", function(name){
-		formatPost(post, sid, name);
-	});
-	postIndex++; // increment postIndex (temp line)
+	socket.emit('Forum', (prefix + message), cid, huid, cid.toString());
 }
 
-/* */
+/*
+	Generic function that takes in uid, desired user info and function to
+	callback. Uses an ajax request on the created getUser.php in the main
+	streamline directory. I will likely move this function to streamline_modules
+	as it would allow the other modules access without having to rewrite this.
+*/
 function getUser(sid, param, callback){
 	$.get("getUser.php", {"id" : cid, "uid" : sid, "param" : param}, callback);
 }
 
-/* 	Takes in the post message and appends it to the page based on post type and id 
-	New post format: "n|test question", returns "n|test question|npid+userid"
-	Reply format: "r|test reply|pid", returns "pid|test reply|npid+userid"
+/* 	
+	Takes in the post message and appends it to the page based on post type and id 
+	New post format: "n|test question", returns "n|test question|npid+userid@time"
+	Reply format: "r|test reply|pid", returns "pid|test reply|npid+userid@time"
 */
-function formatPost(post, sid, name){
-    var div = Post(
-    	post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
-    	post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
-    	sid, name // user who owns the post
-    );
-    
-    if(post[0] == "n"){ // new post
-        $('#forum-area').prepend(div);
-    } else { // reply post
-        $('#'+post.substring(0, post.indexOf("|"))).append(div);
-        div.classList.add("post-reply");
-    }
+function formatPost(post){
+	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
+	// send an ajax request for users fullname
+	getUser(sid, "fullname", function(name){
+		getUser(sid, "displaypicture", function(dp){
+			var div = Post(
+		    	post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
+		    	post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
+		    	sid, name, dp, // user who owns the post
+		    	post.substr(post.lastIndexOf("@")+1) // time/date of post
+		    );
+		    
+		    if(post[0] == "n"){ // new post
+		        $('#forum-area').prepend(div);
+		    } else { // reply post
+		        $('#'+post.substring(0, post.indexOf("|"))).append(div);
+		        div.classList.add("post-reply");
+		    }
+		});
+	});
 }
 
 /*
 	Creates a post with id pid and utilises newUserDP, newPostContents and 
 	newReplyButton. Returns a new fully formatted and filled div.
 */
-function Post(pid, message, sid, name){
+function Post(pid, message, sid, name, dp, time){
 	var div = document.createElement("div");
     div.id = pid;
     div.classList.add("forum-post");
     
-	div.appendChild(newUserDP(sid)); // append display picture of user
-	div.appendChild(newPostContents(name, message)); // append the contents of the post 
+	div.appendChild(newUserDP(dp)); // append display picture of user
+	div.appendChild(newPostContents(name, message, time)); // append the contents of the post 
 	div.appendChild(newReplyButton(pid)); // append reply button
 	
     return div;
@@ -160,14 +171,16 @@ function Post(pid, message, sid, name){
 	Creates a formatted div that contains the users display picture. It is
 	formatted to sit to the left of a post-contents div.
 */
-function newUserDP(sid){
+function newUserDP(html){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-dp");
-	
+	div.innerHTML = html;
+	/*
 	// send an ajax request for users display picture, then add it to div
 	getUser(sid, "displaypicture", function(code){
 		div.innerHTML = code;
 	});
+	*/
 	
 	return div;
 }
@@ -176,7 +189,7 @@ function newUserDP(sid){
 	Creates a formatted div that contains the username and message.
 	It is formatted to sit next to a post-dp div. 
 */
-function newPostContents(name, message){
+function newPostContents(name, message, time){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-contents");
 	
@@ -190,7 +203,7 @@ function newPostContents(name, message){
 	
 	var date = document.createElement("p");
 	date.classList.add("post-date");
-	date.textContent = "12:55 21/08/15"; // replace with time parameter
+	date.textContent = time; // replace with time parameter
 	hdiv.appendChild(date);
 	
 	div.appendChild(hdiv);
@@ -232,4 +245,7 @@ function newReplyButton(pid){
 		</div>
 		<button class="btn-blue" onclick="Reply(p001)">Reply</button>
 	</div>
+	
+	jwt
+	
 */
