@@ -9,29 +9,27 @@
 	var id = <?=json_encode($cm->id)?>;
 	var hst = <?=json_encode($stuval)?>;
 	var sid = id.toString();
-			var socket = io.connect();
+	var socket = io.connect();
 
-			socket.emit('Check',id);
+	socket.emit('Check',id);
 
-			socket.on('co',function(data) {
-				var Hstu = <?=json_encode($HStuList)?>;
-			  if(data == 'N'){
-					var stu = <?=json_encode($StuList)?>;
-					if(stu.indexOf("-") > -1 && Hstu.indexOf("-") > -1){
-						socket.emit('Sending',stu,Hstu,id);
-						$('#chat-area').append("New Chat");
-					}else{						
-					}
-				}else{
-					$('#chat-area').append("Old Chat");
-				}
+	socket.on('co',function(data) {
+		var Hstu = <?=json_encode($HStuList)?>;
+		if(data == 'Y'){
+			var stu = <?=json_encode($StuList)?>;
+			if(stu.indexOf("-") > -1 && Hstu.indexOf("-") > -1){
+				socket.emit('Sending',stu,Hstu,id);
+				$('#chat-area').append("New Chat");
+			}
+		}else
+			$('#chat-area').append("Old Chat");
         $('#chat-area').append("Join triggred");
-				socket.emit('Join',sid,id,hst); 
-			});
+		socket.emit('Join',sid,id,hst); 
+	});
 
-			socket.on('Running',function(data) {
-				$('#chat-area').append(data);
-			});
+	socket.on('Running',function(data) {
+		$('#chat-area').append(data);
+	});
 			
    </script>
 </head>
