@@ -78,8 +78,7 @@
 	var quizCompleted = [];
 	
 	var sid = null;
-	var cid = null;
-	var uid = null ;
+	var uid = null;
 	var qid = null;
 	
 	if(quizJSON.quizzes.quiz instanceof Array) {

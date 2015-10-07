@@ -97,7 +97,7 @@
 			//Scroll to the sessionRecording
 			var navHeight = $('.navbar').height() - 5;
 			$('html, body').animate({
-				scrollTop: $('#webinarContainer').offset().top-navHeight}, 
+				scrollTop: $('#middleContainer').offset().top-navHeight}, 
 			1000);
 		});
 		
