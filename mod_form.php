@@ -198,6 +198,8 @@ class mod_streamline_mod_form extends moodleform_mod {
         //-------------------------------------------------------------------------------
         
         
+		
+		
         //-------------------------------------------------------------------------------
         // Third block starts here
         //-------------------------------------------------------------------------------
@@ -232,18 +234,55 @@ class mod_streamline_mod_form extends moodleform_mod {
         // Fourth block ends here
         //-------------------------------------------------------------------------------
 
-
+	
+		
+		
+		
+		//-------------------------------------------------------------------------------
+        // Fifth block starts here
         //-------------------------------------------------------------------------------
+        if ( floatval($serverVersion) >= 0.8 ) {
+            $mform->addElement('header', 'general', 'Quiz');
+
+            $mform->addElement( 'checkbox', 'quiz', 'quiz' );
+            $mform->setDefault( 'quiz', 1 );
+			//$mform->addElement('html', file_get_contents('C:\wamp\www\moodle\mod\streamline\matt_Form.htm'));
+            //$mform->addElement('duration', 'timeduration', get_string('mod_form_field_duration', 'streamline')); //Set zero for unlimited
+            //$mform->setDefault('timeduration', 14400);
+            //$mform->addHelpButton('timeduration', 'mod_form_field_duration', 'streamline');
+        }
+        //-------------------------------------------------------------------------------
+        // Fifth block ends here
+        //-------------------------------------------------------------------------------
+				//-------------------------------------------------------------------------------
         // add standard elements, common to all modules
         $this->standard_coursemodule_elements();
         //$this->standard_hidden_coursemodule_elements();
         //-------------------------------------------------------------------------------
         // add standard buttons, common to all modules
         $this->add_action_buttons();
+
         
     }
 
     public function validation($data, $files) {
+		 /*echo "
+		 <script src='http://code.jquery.com/jquery-latest.min.js' type='text/javascript'></script>
+         <script type=\"text/javascript\">
+           //$(this).closest('form').submit();
+		   //document.myform.submit();
+		   //document.getElementById('myform').submit();
+		//alert($(this).closest('form').attr('id'));
+			if($(label[for='id_quiz']) == '1')
+			{
+				alert('Hello');
+			
+			}
+		
+         </script>
+        ";*/
+		//include "matt_Form.php";
+	
         $current_activity =& $this->current;
         
         $errors = parent::validation($data, $files);

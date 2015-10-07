@@ -1,0 +1,247 @@
+body {
+	font-family: calibri;
+}
+
+.quiz_page_title {
+	width: 40%;
+	position: relative;
+	left: 30%;
+	right: 30%;
+	box-sizing: border-box;
+	
+	height: 50px;
+	line-height: 50px;
+	color: #42444C;
+	text-align: center;
+	font-size: 32px;
+	
+	margin: 2px;
+
+}
+
+.quiz_msg {
+	width: 40%;
+	position: relative;
+	left: 30%;
+	right: 30%;
+	box-sizing: border-box;
+	margin: 2px;
+	
+	line-height: 25px;
+	color: #42444C;
+	text-align: center;
+	font-size: 14px;
+	
+}
+
+#quiz_menu {
+	width: 40%;
+	position: relative;
+	left: 30%;
+}
+
+.quiz_title {
+	width: 100%;
+	position: relative;
+	box-sizing: border-box;
+	
+	height: 40px;
+	line-height: 40px;
+	font-size: 24px;
+	text-align: center;
+	
+	background-color: #FFFFFF;
+	color: #42444C;
+	border: 1px solid #42444C;
+}
+
+.quiz_title:hover {
+	background-color: #8E8F94;
+}
+
+.panel-heading {
+	height: 52px;
+}
+/*
+.add_quiz_button {
+	width: 20%;
+	height: 50px;
+	line-height: 50px;
+	background-color: #FFFFFF;
+	color: #42444C;
+	border: 2px solid #42444C;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 100%;
+	margin: 2px;
+}
+
+.add_quiz_button:hover {
+	background-color: #42444C;
+	border: 2px solid #FFFFFF;
+	color: #FFFFFF;
+	cursor: pointer;
+}
+*/
+.options_tag {
+	margin-left: 10%;
+}
+
+.question_tag {
+	height: 31px;
+	padding: 6px;
+	border-top-left-radius: 0.3em;
+	border-bottom-left-radius: 0.3em;
+	border-top: 1px solid #A9A9A9;
+	border-bottom: 1px solid #A9A9A9;
+	border-left: 1px solid #A9A9A9;
+	background-image: linear-gradient(to bottom,#fff 0,#e0e0e0 100%);
+}
+
+.input_fields_wrap {
+	width: 40%;
+	position: relative;
+	left: 30%;	
+}
+
+.question_input {
+	width: 80%;
+	line-height: 25px;
+	padding-left: 10px;
+	float: left;
+}
+
+.answer_input {
+	width: 85%;
+	height: 31px;
+	line-height: 25px;
+	padding-left: 10px;
+	float: left;
+	margin-bottom: 2px;
+}
+
+.add_answer {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 10%;
+}
+
+.answer {
+	margin-left: 10%;
+	margin-right: 10%;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+.question {
+	padding: 5px;
+}
+
+input.checkbox_answer {
+	margin: 0px;
+}
+
+.options_checkbox {
+	float: left;
+	height: 31px;
+	width: 7.5%;
+	padding: 9px;
+	
+	border-top-left-radius: 0.3em;
+	border-bottom-left-radius: 0.3em;
+	border-top: 1px solid #A9A9A9;
+	border-bottom: 1px solid #A9A9A9;
+	border-left: 1px solid #A9A9A9;
+	
+	background-color: #EEEEEE;
+	margin-bottom: 2px;
+}
+
+.remove_quiz{
+	position: relative;
+	left: 30%;
+	margin-left: 5px;
+	margin-top: 10px;
+	width: 140px;
+	line-height: 25px;
+	padding: 5px;
+	background-color: #E8B5B0;
+    padding-left: 10px;
+	border: 1px solid #A9A9A9;
+}
+
+.remove_quiz:hover {
+	background-color: #EA7667;
+	cursor: pointer;
+}
+
+.remove_question {
+	height: 31px;
+	width: 6%;
+    background:url(../images/close_light.png) no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
+	float: left;
+	margin-bottom: 2px;
+	border-top: 1px solid #A9A9A9;
+	border-bottom: 1px solid #A9A9A9;
+	border-right: 1px solid #A9A9A9;
+	
+	border-top-right-radius: 0.3em;
+	border-bottom-right-radius: 0.3em;
+}
+
+.remove_question:hover {
+	height: 31px;
+	width: 6%;
+    background:url(../images/close_dark.png) no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
+	float: left;
+	margin-bottom: 2px;
+	cursor: pointer;
+}
+
+.remove_field {
+	height: 31px;
+	width: 7.5%;
+    background:url(../images/close.png) no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
+	float: left;
+	margin-bottom: 2px;
+	border-top: 1px solid #A9A9A9;
+	border-bottom: 1px solid #A9A9A9;
+	border-right: 1px solid #A9A9A9;
+	background-color: #F7BDB4;
+
+	border-top-right-radius: 0.3em;
+	border-bottom-right-radius: 0.3em;
+
+}
+
+.remove_field:hover {
+	height: 31px;
+	width: 7.5%;
+    background:url(../images/close.png) no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
+	float: left;
+	margin-bottom: 2px;
+	cursor: pointer;
+	background-color: #F39182;
+
+}
+
+.question_label {
+	float: left;
+	height: 31px;
+	width: 13%;
+	line-height: 31px;
+}
+
+.quiz_submit_button {
+	position: absolute;
+	width: 10%;
+	right: 30%;
+}

@@ -1,0 +1,106 @@
+<quizzes StreamLine_id="1">
+	<quiz id="1">
+		<question id="1" text="What is 2+2?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="2" text="What is the colour of the sky?">
+			<option text="Green" answer="false" />
+			<option text="Blue" answer="true" />
+			<option text="Yellow" answer="false" />
+		</question>
+		<question id="3" text="What is the capital of Australia?">
+			<option text="Sydney" answer="false" />
+			<option text="Melbourne" answer="false" />
+			<option text="Canberra" answer="true" />
+		</question>
+	</quiz>
+	
+	<quiz id="2">
+		<question id="1" text="What is 5-1?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="2" text="What is the colour of the grass?">
+			<option text="Blue" answer="false" />
+			<option text="Green" answer="true" />
+			<option text="Yellow" answer="false" />
+		</question>
+		<question id="3" text="What is the capital of India?">
+			<option text="Mumbai" answer="false" />
+			<option text="Kolkatta" answer="false" />
+			<option text="New Delhi" answer="true" />
+		</question>
+	</quiz>
+	
+	<quiz id="3">
+		<question id="1" text="What is 8/2?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="2" text="What is the colour of the sun?">
+			<option text="Blue" answer="false" />
+			<option text="Yellow" answer="true" />
+			<option text="Green" answer="false" />
+		</question>
+		<question id="3" text="What is the capital of New Zealand?">
+			<option text="Christchurch" answer="false" />
+			<option text="Auckland" answer="false" />
+			<option text="Wellington" answer="true" />
+		</question>
+	</quiz>
+	
+	<quiz id="4">
+		<question id="1" text="What is 8/2?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="2" text="What is the colour of the sun?">
+			<option text="Blue" answer="false" />
+			<option text="Yellow" answer="true" />
+			<option text="Green" answer="false" />
+		</question>
+		<question id="3" text="What is the capital of New Zealand?">
+			<option text="Christchurch" answer="false" />
+			<option text="Auckland" answer="false" />
+			<option text="Wellington" answer="true" />
+		</question>
+	</quiz>
+	
+	<quiz id="5">
+		<question id="1" text="What is 8/2?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="2" text="What is the colour of the sun?">
+			<option text="Blue" answer="false" />
+			<option text="Yellow" answer="true" />
+			<option text="Green" answer="false" />
+		</question>
+		<question id="3" text="What is the capital of New Zealand?">
+			<option text="Christchurch" answer="false" />
+			<option text="Auckland" answer="false" />
+			<option text="Wellington" answer="true" />
+		</question>
+		<question id="4" text="What is 2+2?">
+			<option text="Four" answer="true" />
+			<option text="Five" answer="false" />
+			<option text="Three" answer="false" />
+		</question>
+		<question id="5" text="What is the colour of the sky?">
+			<option text="Green" answer="false" />
+			<option text="Blue" answer="true" />
+			<option text="Yellow" answer="false" />
+		</question>
+		<question id="6" text="What is the capital of Australia?">
+			<option text="Sydney" answer="false" />
+			<option text="Melbourne" answer="false" />
+			<option text="Canberra" answer="true" />
+		</question>
+	</quiz>
+</quizzes>

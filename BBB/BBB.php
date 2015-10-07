@@ -2,11 +2,6 @@
 	require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
 	require_once(dirname(dirname(__FILE__)).'/locallib.php');
 	require_once(dirname(dirname(__FILE__)).'/lib.php');
-
-	
-		
-	global $DB, $CFG, $USER, $COURSE;
-
 	
 	$bbbsession['salt'] = trim($CFG->BigBlueButtonSaltKey);
 	$bbbsession['url'] = trim(trim($CFG->ServerURLforBigBlueButton),'/').'/';
@@ -59,7 +54,6 @@
 
 	?>
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="streamline.css">
 
  <!--All the Javascript-->

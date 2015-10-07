@@ -1,0 +1,38 @@
+<?php
+
+
+	global $DB;
+
+	$qid = $_POST['qid'];
+	$sid = $_POST['sid'];
+	$cid = $_POST['cid'];
+	$stuid = $_POST['stuid'];
+	$answers = $_POST['answers'];
+
+	$testFile = fopen("quiz.txt", "w") or die("Unable to open file!");
+	fwrite($testFile, $qid.'\n');
+	fwrite($testFile, $sid.'\n');
+	fwrite($testFile, $cid.'\n');
+	fwrite($testFile, $stuid.'\n');
+	for($i = 0; $i < sizeof($answers);$i++) {
+		fwrite($testFile, $answers[0].'\n');	
+	}
+	
+
+	$N_record1 = new stdClass();
+	$N_record1->quizid 	= '1';
+	$N_record1->stremlineid = '2';
+	$N_record1->courseid 	= '3';
+	$N_record1->userid 	= '123';
+	$N_record1->answers	= '1.1'
+	$arr = array($N_record1);
+
+	$lastinsertid = $DB->insert_record('streamline_quiz', $arr, false);
+ 
+
+fwrite($testFile, 'completed '.'\n');
+ 
+	fclose($testFile);
+
+
+?>

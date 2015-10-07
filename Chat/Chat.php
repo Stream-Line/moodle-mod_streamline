@@ -4,8 +4,9 @@
 <head>
 
     <link rel="stylesheet" href="css/kube.min.css" />
- 		<link rel="stylesheet" type="text/css" href="kube.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+ 	<link rel="stylesheet" type="text/css" href="kube.css">
+	<link rel="stylesheet" type="text/css" href="Chat/chat.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="js/kube.min.js"></script>
     <link rel="stylesheet" type="text/css" href="streamline.css">
@@ -81,7 +82,7 @@
 
 	socket.on('loaded', function(history){
 		$('#chat').append(history);
-$("#chat").animate({ scrollTop: 10000000 }, "fast");
+		$("#chat").animate({ scrollTop: 10000000 }, "fast");
 	});
 
 	//socket.on('connect', function(){
@@ -105,3 +106,7 @@ $("#chat").animate({ scrollTop: 10000000 }, "fast");
 		<textarea id="sendie" rows="2"></textarea>
 </body>
 </html>
+
+<script>
+	$('.msg_name').text();
+</script>

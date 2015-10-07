@@ -3,8 +3,8 @@
 	
 		if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
 			console.log("Setting to fullscreen mode");
-			elem.style.width = '75%';
-			elem.style.height = '650px';
+			elem.style.width = '100%';
+			elem.style.height = '100%';
 			if (elem.requestFullScreen) {
 				elem.requestFullScreen();
 			} else if (elem.mozRequestFullScreen) {
@@ -23,7 +23,13 @@
 		} else {		
 			console.log("Setting to normal mode");
 			elem.style.width = '75%';
-			elem.style.height = '650px';
+			
+			var windowHeight = window.innerHeight;
+			var navHeight = $('.navbar').height()
+			containerHeight = windowHeight - navHeight;
+	
+			elem.style.height = containerHeight + 'px';
+			
 			if (document.cancelFullScreen) {
 				document.cancelFullScreen();
 			} else if (document.mozCancelFullScreen) {

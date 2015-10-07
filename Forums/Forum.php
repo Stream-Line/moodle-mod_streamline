@@ -1,7 +1,6 @@
 <?php
     include "Forums/Forum_Dependencies.php";
 ?>
-
 <div id="forum_parent" class="units-row unit-100">
     <div id="forum-input-main" class="forum-post">
         <div id="forum-user-dp-main" class="post-dp">
