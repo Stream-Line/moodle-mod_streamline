@@ -123,3 +123,14 @@
 	width: 100%;
 	float: left;
 }
+
+.quiz_loading {
+
+	background:url(./images/loading.gif) no-repeat center center;
+
+
+}
+
+.quiz_loading_img {
+	visibility: hidden;
+}
