@@ -1,7 +1,3 @@
-<?php
-	echo $streamline->quiz_xml;
-?>
-
 <!-- Quiz -->
 
 <!-- Modal -->
@@ -59,14 +55,9 @@
 
 	// XML string to JSON    
 	var x2js = new X2JS(); 
-	var xml = loadXMLDoc('Quiz/quiz_example.xml');
-	var xmlText = new XMLSerializer().serializeToString(xml);
-	xmlText = <?=json_encode($streamline->quiz_xml)?>;
-	console.log("QUIZ");
-	console.log(xmlText);
+	var xmlText = <?=json_encode($streamline->quiz_xml)?>;
 	var quizJSON = x2js.xml_str2json( xmlText );
 
-	var data;
 	if(quizJSON.quizzes.quiz instanceof Array) {
 		number_of_quizzes = quizJSON.quizzes.quiz.length;
 	} else {
@@ -77,9 +68,11 @@
 	var currentQuizId = null;
 	var quizCompleted = [];
 	
-	var sid = null;
-	var uid = null;
-	var qid = null;
+	var quiz_sid = null;
+	var quiz_uid = null;
+	var quiz_qid = null;
+	var quiz_cid = null;
+	
 	
 	if(quizJSON.quizzes.quiz instanceof Array) {
 		for(i=0; i< quizJSON.quizzes.quiz.length; i++) {
@@ -99,10 +92,10 @@
 	//id  - The index
 	function SubmissionCheck(id) 
 	{
-		sid = <?=json_encode($streamline->id)?>;
-		cid = <?=json_encode($COURSE->id)?>;
-		uid = <?=json_encode($USER->id)?>;
-		qid = id + 1;
+		var sid = <?=json_encode($streamline->id)?>;
+		var cid = <?=json_encode($COURSE->id)?>;
+		var uid = <?=json_encode($USER->id)?>;
+		var qid = id + 1;
 				
 		console.log("LOG: Checking for submission");
 		console.log("LOG: Passing the following data");
@@ -136,9 +129,7 @@
 		});
 	}
 	
-	window.setInterval(function(){
-	  checkSummary();
-	}, 5000);
+
 		
 	function checkSummary() {
 		if(currentQuizId == null) {
@@ -151,20 +142,20 @@
 			return;
 		}
 		
-		if(sid == null) {
-			sid = <?=json_encode($streamline->id)?>;
+		if(quiz_sid == null) {
+			quiz_sid = <?=json_encode($streamline->id)?>;
 		}
-		if(cid == null) {
-			cid = <?=json_encode($COURSE->id)?>;
+		if(quiz_cid == null) {
+			quiz_cid = <?=json_encode($COURSE->id)?>;
 		}
-		if(uid == null) {
-			uid = <?=json_encode($USER->id)?>;
+		if(quiz_uid == null) {
+			quiz_uid = <?=json_encode($USER->id)?>;
 		}
 				
 		console.log("LOG: Updating Summary");
 		console.log("LOG: Passing the following data");
 		
-		query_data={ "qid" : currentQuizId, "sid" : sid, "cid" : cid, "uid" : uid};
+		query_data={ "qid" : currentQuizId, "sid" : quiz_sid, "cid" : quiz_cid, "uid" : quiz_uid};
 		console.log(query_data);
 			
 		performUpdate(query_data, currentQuizId-1);
@@ -184,8 +175,8 @@
 	
 	function updateSummary(id) {
 	
-		sid = <?=json_encode($streamline->id)?>;
-		cid = <?=json_encode($COURSE->id)?>;
+		var sid = <?=json_encode($streamline->id)?>;
+		var cid = <?=json_encode($COURSE->id)?>;
 		var answers = obtainAnswers(id-1);
 		var answering = ""; // have to make this a string to work for some reason
 		for(var i = 0; i < answers.length; i++)
@@ -198,12 +189,6 @@
 		
 		obtainResultsData(data);
 	}
-	
-	var right_id;
-	var wrong_id;
-	
-	var newRightPercentage;
-	var newWrongPercentage;
 			
 	function updateProgressBars(data) {
 		console.log("LOG: Updating Progress Bars with following data");
@@ -247,8 +232,8 @@
 		
 		console.log("Obtaining Results");
 		
-		sid = <?=json_encode($streamline->id)?>;
-		cid = <?=json_encode($COURSE->id)?>;
+		var sid = <?=json_encode($streamline->id)?>;
+		var cid = <?=json_encode($COURSE->id)?>;
 		var answers = obtainAnswers(id-1);
 		var answering = ""; // have to make this a string to work for some reason
 		for(var i = 0; i < answers.length; i++)
@@ -517,10 +502,10 @@
 			}
 		}
 
-		sid = <?=json_encode($streamline->id)?>;
-		stuid = <?=json_encode($USER->id)?>;
-		cid = <?=json_encode($COURSE->id)?>;
-		qid = currentQuizId;
+		var sid = <?=json_encode($streamline->id)?>;
+		var stuid = <?=json_encode($USER->id)?>;
+		var cid = <?=json_encode($COURSE->id)?>;
+		var qid = currentQuizId;
 		
 		data={ "qid" : qid, "sid" : sid, "cid" : cid, "stuid" : stuid, "answers" : answerArray[currentQuizId-1] };
 		
