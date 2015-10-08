@@ -73,7 +73,10 @@
 	var quiz_qid = null;
 	var quiz_cid = null;
 	
-	
+	window.setInterval(function(){
+	  checkSummary();
+	}, 5000);
+		
 	if(quizJSON.quizzes.quiz instanceof Array) {
 		for(i=0; i< quizJSON.quizzes.quiz.length; i++) {
 			var quiz = "<li class='quizOption' data-toggle='modal' data-target='#quizModal' onclick='SubmissionCheck("+(i)+")'>Quiz "+(i+1)+"</li>";
