@@ -100,6 +100,9 @@
 <body onload="loading()">
 <div id='scroll_down'>
 				<ul id="chat">
+					<div class="chat_welcome">
+						Welcome to StreamLine Chat					
+					</div>
 				</ul>  
 </div>
     <p class="chat_send_msg">Your message: </p>

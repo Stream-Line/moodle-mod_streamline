@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of streamline
+ * Prints a particular instance of 	
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
