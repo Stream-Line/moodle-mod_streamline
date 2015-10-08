@@ -195,10 +195,19 @@
 			
 	function updateProgressBars(data) {
 		console.log("LOG: Updating Progress Bars with following data");
+		
+		if(data.data == null) {
+			return;
+		}
+		
 		var number_of_questions = data.data.length;
 		for(i=0; i<number_of_questions; i++) {
 			right_percentage = data.data[i][1]*100;
+			
+			//Round to two decimal places
+			right_percentage = Math.round(right_percentage * 100) / 100;
 			wrong_percentage = 100-right_percentage;
+			
 			right_id = "Question_correct"+(data.data[i][0]-1);
 			wrong_id = "Question_wrong"+(data.data[i][0]-1);
 			
@@ -359,9 +368,13 @@
 				$("#"+class_div+"").height(question_summary_height);
 				$("#"+class_div+"").append("<b>Question "+(i+1)+" - Class Summary</b><br>");				
 				
-				if(i == data.data[answer_index][0]-1) {
-					right_percentage = data.data[answer_index][1]*100;
+				if(data.data != null && i == data.data[answer_index][0]-1) {
+				
+					//Round to two decimal places
+					right_percentage = data.data[answer_index][1]*100;				
+					right_percentage = Math.round(right_percentage * 100) / 100;
 					wrong_percentage = 100-right_percentage;
+			
 					var right_id = "Question_correct"+i;
 					var wrong_id = "Question_wrong"+i; 
 					$("#"+class_div+"").append('<div class="progress"><div id="'+right_id+'" class="progress-bar progress-bar-striped progress-bar-success active" style="width: '+right_percentage+'%">'+right_percentage+'%</div><div id="'+wrong_id+'" class="progress-bar progress-bar-striped progress-bar-danger active" style="width: '+wrong_percentage+'%">'+wrong_percentage+'%</div></div>');
