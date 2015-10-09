@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Prints a particular instance of streamline
+ * Prints a particular instance of 	
  *
  * You can have a rather longer description of the file as well,
  * if you like, and it can span multiple lines.
@@ -29,6 +29,7 @@
 
 require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
 require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__).'/locallib.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module ID, or
 $n  = optional_param('n', 0, PARAM_INT);  // ... streamline instance ID - it should be named as the first character of the module.
@@ -44,6 +45,10 @@ if ($id) {
 } else {
     error('You must specify a course_module ID or an instance ID');
 }
+
+
+$cm = get_coursemodule_from_id('streamline', $id, 0, false, MUST_EXIST);
+$streamline = $DB->get_record('streamline', array('id' => $cm->instance), '*', MUST_EXIST);
 
 require_login($course, true, $cm);
 
@@ -70,7 +75,48 @@ $PAGE->set_heading(format_string($course->fullname));
 
 // Output starts here.
 //echo $OUTPUT->header();
-include 'BBB/stream_view.php';
+
+/*
+if you the moderator and meeting hasn't started
+run the script else run the BBB/stream_view.php
+store quiz variable where 0 means no quiz 1 means quiz has been selected and 2 means has been set
+
+*/
+if ( $CFG->version < '2013111800' ) {
+    //This is valid before v2.6
+    $module = $DB->get_record('modules', array('name' => 'streamline'));
+    $module_version = $module->version;
+    $context = get_context_instance(CONTEXT_MODULE, $cm->id);
+} else {
+    //This is valid after v2.6
+    $module_version = get_config('mod_streamline', 'version');
+    $context = context_module::instance($cm->id);
+}
+
+/*if( $streamline->participants == null || $streamline->participants == "[]" ){
+    //The room that is being used comes from a previous version
+    $moderator = has_capability('mod/streamline:moderate', $context);
+} else {
+    $moderator = bigbluebuttonbn_is_moderator($bbbsession['userID'], $bbbsession['roles'], $streamline->participants);
+}*/
+$administrator = has_capability('moodle/category:manage', $context);
+$moderator = has_capability('mod/streamline:moderate', $context);
+
+
+
+    if ( $administrator && ($streamline -> quiz_xml) == null)
+	{
+		include "quiz/quizForm.php";
+	}
+    else if ( $moderator && ($streamline -> quiz_xml) == null)
+	{	
+		include "quiz/quizForm.php";
+	}
+	else
+	{
+		include 'BBB/stream_view.php';
+	}
+//include 'BBB/stream_view.php';
 ?>
 
 

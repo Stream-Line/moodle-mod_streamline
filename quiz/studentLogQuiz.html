@@ -1,0 +1,46 @@
+<html>
+<head>
+  <!-- Jquery from google cdn -->
+  <script src="jquery.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="bootstrap.min.css">
+  
+  <!-- Optional theme -->
+  <!--
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+-->
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="bootstrap.min.js"></script>
+</head>
+<body>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Student Quiz
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Quiz</h3>
+      </div>
+      <div class="modal-body">
+        <iframe style="width:580px;" height="620px" frameborder="no" border="0" src="studentQuizH.html"></iframe>
+
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!--
+        <button type="button" class="btn btn-primary">Save changes</button>
+      -->
+      </div>
+      
+    </div>
+  </div>
+</div>
+</body>
+</html>

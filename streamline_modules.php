@@ -15,6 +15,18 @@
 <script type="text/javascript" src="<?php Print($moodle_dir);?>/mod/streamline/3rd-party.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="streamline.css">
+<script src="Quiz/xml2json.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		
+<link rel="stylesheet" type="text/css" href="Quiz/quiz.css">
 
 <body>
 	<div id ="top_liveView">
@@ -69,13 +81,17 @@
 		<div class="unit-25" id="rightContainer">
 			<!-- Menu buttons above the Chat -->
 			<div id="webinar_buttons">
-				<div id="std_button" class="fullscreen_button">
+				<div id="std_button" class="fullscreen_button" title="Full screen">
 					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
 				</div>
-				<div id="std_button" class="quiz_button">
+				<div id="std_button" class="quiz_button" class="dropdown" id="dropdownMenu1" title="Quiz">
+				  <div class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+				  </div>
+				  <ul id="quiz_menu" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				  </ul>
 				</div>
-				<div id="std_button" class="leave_button">
+				<div id="std_button" class="leave_button" title="Exit">
 					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
 				</div>
 			</div>
@@ -103,5 +119,7 @@
 			<?php include 'Forums/Forum.php';?>
 		</div>
 	</div>
+	
+	<?php include 'Quiz/quiz.php';?>
 	
 </body>

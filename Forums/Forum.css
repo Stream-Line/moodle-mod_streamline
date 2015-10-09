@@ -60,3 +60,18 @@
 .forum-hidden{
     display: none;
 }
+
+
+/*CSS for Forum Title*/
+
+#forum_title {
+	background-color: #42444C;
+	color: #FFFFFF;
+	padding: 10px;
+	font-weight: normal;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#forum_title_section {
+	color: #42444C;
+}

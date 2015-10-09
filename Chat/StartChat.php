@@ -9,6 +9,7 @@
 	var id = <?=json_encode($cm->id)?>;
 	var hst = <?=json_encode($stuval)?>;
 	var sid = id.toString();
+
 	var socket = io.connect();
 
 	socket.emit('Check',id);

@@ -13,6 +13,7 @@
 		/* Variables */
 		var sessionRunning = false;
 		var recordingURL = "";
+		var containerHeight;
 
 		$( document ).ready(function() {
 		
@@ -33,6 +34,8 @@
 						Load the playback screen displaying no recordings exist
 			*/		
 			
+			var windowHeight;
+			var navHeight;
 			BBBSessionRunning();
 			var hasRecording = isRecording(); 
 			/* 	Case 1 - Load options screen */
@@ -49,6 +52,13 @@
 				$("#recordingView").css("display", "none");
 				$("#optionView").css("display", "none");
 				$("#top_liveView").css("display", "block");
+				
+				windowHeight = window.innerHeight;
+				navHeight = $('.navbar').height()
+				containerHeight = windowHeight - navHeight;
+				
+				$('#middleContainer').height(containerHeight);
+				$('#rightContainer').height(containerHeight);
 			/* 	Case 3 - Load playback screen */
 			} else {
 				console.log("loading playback screen");
@@ -64,12 +74,42 @@
 				}
 				else { /* Case 3.2 - Load playback with no recording message */
 					if(meetingEnded) {
-						$("#recordingView").html("<p class='session_no_record'> Sorry, this webinar session has been ended! <br> If the session was recorded, please wait while the recording is processed... </p>");
+						$("#recordingView").html("<div class='session_no_record'><img src='./images/Logo.png' alt='Smiley face' width='20%'><br>Sorry, this webinar session has been ended! <br> If the session was recorded, please wait while the recording is processed... </div>");
 					} else {
-						$("#recordingView").html("<p class='session_no_record'> The webinar session is currently not running, please wait for the lecturer and/or moderator to join. <br> No recordings are available for this lecture at this time. </p>");
+						$("#recordingView").html("<div class='session_no_record'><img src='./images/Logo.png' alt='Smiley face' width='20%'><br>The webinar session is currently not running, please wait for the lecturer and/or moderator to join. <br> No recordings are available for this lecture at this time. </div>");
 					}
 				}				
 			}
+			
+			//Set webinar height dynamically 
+			var webinarButtonHeight = $('.fullscreen_button').outerHeight();
+			$('#webinar_buttons').height(webinarButtonHeight);
+			
+			//Set chat module height dynamically
+			var chatModuleHeight = containerHeight - webinarButtonHeight;
+			$('#chat_module').outerHeight(chatModuleHeight);
+			
+			//Set chat height dynamically
+			var sendBox = $('#sendie').outerHeight();
+			var sendBoxTitle = $('.chat_send_msg').outerHeight();
+			console.log("Send Box: " + sendBox);
+			console.log("Send Msg: " + sendBoxTitle);
+			console.log("Chat Mod: " + $('#chat_module').height());
+			
+			var chatHeight = $('#chat_module').height() - sendBox - sendBoxTitle;
+			console.log("Chat Height: " + chatHeight);
+			$('#chat').outerHeight(chatHeight);
+			
+			console.log("Setting Middle Container Height");
+					
+			$("#liveView").hover(function(){
+				var scrollT = $(document).scrollTop();
+				$(document).on("scroll", function(e){
+					$(document).scrollTop(scrollT);
+				});
+			}, function(){
+				$(document).off("scroll");
+			});
 			
 			console.log(sessionRunning);
 			$(".playback_button").click(function() {
@@ -95,8 +135,9 @@
 			});
 			
 			//Scroll to the sessionRecording
+			var navHeight = $('.navbar').height() - 5;
 			$('html, body').animate({
-				scrollTop: $('#region-main').offset().top-50}, 
+				scrollTop: $('#middleContainer').offset().top-navHeight}, 
 			1000);
 		});
 		
@@ -138,6 +179,14 @@
 				div.onclick = createClickHandler(recordingURLs[i]);
 				document.getElementById('sectionContainer').appendChild(div);
 			}
+			
+			var sectionHeight = $("#sectionContainer").outerHeight();
+			var iframeHeight = $("#streamline_recording").outerHeight();
+			containerHeight = sectionHeight + iframeHeight;
+				
+			$('#middleContainer').height(containerHeight);
+			$('#rightContainer').height(containerHeight);
+				
 			console.log("RECORDING LIST");
 			console.log(recordingURLs);
 		}
@@ -174,7 +223,7 @@
 				});
 				
 				alert("The webinar session has been ended!");
-				//window.location.href = "<?php echo($moodle_dir);?>/mod/streamline/view.php?id=<?php echo $id; ?>";  
+				window.location.href = "<?php echo($moodle_dir);?>/mod/streamline/view.php?id=<?php echo $id; ?>";  
 				
 				//Closes the iframe
 				//$('#iframe_box').remove();
@@ -243,7 +292,6 @@
       swfobject.registerObject("WebcamPreviewStandalone", "11", "expressInstall.swf");
       swfobject.registerObject("WebcamViewStandalone", "11", "expressInstall.swf");
     </script>
-    <script src="<?php Print($variable);?>/client/lib/jquery-1.5.1.min.js" language="javascript"></script>
     <script src="<?php Print($variable);?>/client/lib/bigbluebutton.js" language="javascript"></script>
     <script src="<?php Print($variable);?>client/lib/bbb_localization.js" language="javascript"></script>
     <script src="<?php Print($variable);?>client/lib/bbb_blinker.js" language="javascript"></script>

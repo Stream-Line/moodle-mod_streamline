@@ -1,0 +1,20 @@
+<quizzes StreamLine_id='1'> 
+<quiz id='1'> 
+<question text ='a' id='1'> 
+<option text='b' answer='true' /> 
+</question> 
+</quiz> 
+<quiz id='2'> 
+<question text ='c' id='1'> 
+<option text='d' answer='false' /> 
+<option text='e' answer='false' /> 
+</question> 
+<question text ='f' id='2'> 
+<option text='g' answer='true' /> 
+</question> 
+</<quizzes StreamLine_id='1'> 
+<quiz id='1'> 
+<question text ='' id='1'> 
+<option text='' answer='false' /> 
+</question> 
+</quiz> 
