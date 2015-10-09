@@ -135,18 +135,17 @@ function formatPost(post){
 	getUser(sid, "fullname", function(name){
 		getUser(sid, "displaypicture", function(dp){
 			var div = Post(
-		    	post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
-		    	post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
-		    	sid, name, dp, // user who owns the post
-		    	post.substr(post.lastIndexOf("@")+1) // time/date of post
-		    );
-		    
-		    if(post[0] == "n"){ // new post
-		        $('#forum-area').prepend(div);
-		    } else { // reply post
-		        $('#'+post.substring(0, post.indexOf("|"))).append(div);
-		        div.classList.add("post-reply");
-		    }
+				post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
+				post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
+				sid, name, dp, // user who owns the post
+				post.substr(post.lastIndexOf("@")+1) // time/date of post
+			);
+			if(post[0] == "n"){ // new post
+				$('#forum-area').prepend(div);
+			} else { // reply post
+				$('#'+post.substring(0, post.indexOf("|"))).append(div);
+				div.classList.add("post-reply");
+			}
 		});
 	});
 }
@@ -157,14 +156,14 @@ function formatPost(post){
 */
 function Post(pid, message, sid, name, dp, time){
 	var div = document.createElement("div");
-    div.id = pid;
-    div.classList.add("forum-post");
-    
+	div.id = pid;
+	div.classList.add("forum-post");
+	
 	div.appendChild(newUserDP(dp)); // append display picture of user
 	div.appendChild(newPostContents(name, message, time)); // append the contents of the post 
 	div.appendChild(newReplyButton(pid)); // append reply button
 	
-    return div;
+	return div;
 }
 
 /*	
@@ -223,10 +222,10 @@ function newPostContents(name, message, time){
 function newReplyButton(pid){
 	var reply_btn = document.createElement("button");
 	reply_btn.classList.add("btn-blue");
-    reply_btn.textContent = "Reply";
-    reply_btn.onclick = function() { Reply(pid); };
-    
-    return reply_btn;
+	reply_btn.textContent = "Reply";
+	reply_btn.onclick = function() { Reply(pid); };
+	
+	return reply_btn;
 }
 
 /*	ideal forum post div
