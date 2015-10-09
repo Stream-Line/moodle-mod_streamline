@@ -28,6 +28,18 @@
 		
 <link rel="stylesheet" type="text/css" href="Quiz/quiz.css">
 
+<script type="text/javascript">
+	/*
+		Generic function that takes in uid, desired user info and function to
+		callback. Uses an ajax request on the created getUser.php in the main
+		streamline directory. This function has been moved to streamline_modules
+		as it allows the other modules access without having to rewrite this.
+	*/
+	function getUser(sid, param, callback){
+		$.get("getUser.php", {"id" : cid, "uid" : sid, "param" : param}, callback);
+	}
+</script>
+
 <body>
 	<div id ="top_liveView">
 		<div id="recordStatus" class="recordStatus_Off"> This Lecture is not being recorded </div>

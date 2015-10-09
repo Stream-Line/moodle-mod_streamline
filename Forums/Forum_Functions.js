@@ -114,16 +114,6 @@ function PostF(message){
 	socket.emit('Forum', (prefix + message), cid, huid, cid.toString());
 }
 
-/*
-	Generic function that takes in uid, desired user info and function to
-	callback. Uses an ajax request on the created getUser.php in the main
-	streamline directory. I will likely move this function to streamline_modules
-	as it would allow the other modules access without having to rewrite this.
-*/
-function getUser(sid, param, callback){
-	$.get("getUser.php", {"id" : cid, "uid" : sid, "param" : param}, callback);
-}
-
 /* 	
 	Takes in the post message and appends it to the page based on post type and id 
 	New post format: "n|test question", returns "n|test question|npid+userid@time"
