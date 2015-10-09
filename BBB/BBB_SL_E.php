@@ -47,7 +47,8 @@
 			// <DO YOUR WORK HERE>
 			var elem = document.getElementById("middleContainer");
 			elem.style.width = '75%';
-			elem.style.height = '650px';
+			console.log(containerHeight);
+			elem.style.height = containerHeight + 'px';
 			switchLayout('StreamLine')
 		}
 	});
