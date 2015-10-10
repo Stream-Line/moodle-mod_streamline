@@ -4,35 +4,22 @@
 ==================================
 */
 
+/* global socket */
+
 /*
     Gets triggered when someone posts to the forum. 
     Updates the page without having to refresh.
 */
 socket.on('forumback', function(post){
 	formatPost(post);
-	/*
-	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
-	// send an ajax request for users fullname, then format the post
-	getUser(sid, "fullname", function(name){
-		formatPost(post, sid, name);
-	});
-	*/
 });
 
 /*
     Gets triggered when page is loaded and loads in the forum history.
 */
 socket.on('loadedF', function(history){
-	for(var i in history){
+	for(var i in history)
 		formatPost(history[i]);
-		/*
-		var sid = history[i].substring(history[i].lastIndexOf("+")+1, history[i].lastIndexOf("@"));
-		// send an ajax request for users fullname, then format the post
-		getUser(sid, "fullname", function(name){
-			formatPost(history[i], sid, name);
-		});
-		*/
-	}
 });
 
 /*
@@ -41,6 +28,7 @@ socket.on('loadedF', function(history){
 ===============================================
 */
 
+/* global getUser, HyperLinks */
 var prefix = ""; // variable to hold whether post is new or a reply
 var cid, huid, uid; // global variables for reference
 
@@ -55,7 +43,7 @@ function init(courseid, hasheduserid, userid){
 	this.huid = hasheduserid;
 	this.uid = userid;
 	setupEventHandlers();
-	getUser(uid, "displaypicture", function(code){
+	getUser(cid, uid, "displaypicture", function(code){
 		$("#forum-user-dp-main").html(code);
 		$("#forum-user-dp-reply").html(code);
 	});
@@ -122,8 +110,8 @@ function PostF(message){
 function formatPost(post){
 	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
 	// send an ajax request for users fullname
-	getUser(sid, "fullname", function(name){
-		getUser(sid, "displaypicture", function(dp){
+	getUser(cid, sid, "fullname", function(name){
+		getUser(cid, sid, "displaypicture", function(dp){ // send ajax request for dp in html
 			var div = Post(
 				post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
 				post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
@@ -164,12 +152,6 @@ function newUserDP(html){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-dp");
 	div.innerHTML = html;
-	/*
-	// send an ajax request for users display picture, then add it to div
-	getUser(sid, "displaypicture", function(code){
-		div.innerHTML = code;
-	});
-	*/
 	
 	return div;
 }
@@ -199,8 +181,9 @@ function newPostContents(name, message, time){
 	
 	var mdiv = document.createElement("div"); // message div
 	var msg = document.createElement("p");
-	msg.textContent = message;
+	msg.innerHTML = HyperLinks(message);
 	mdiv.appendChild(msg);
+
 	div.appendChild(mdiv);
 	
 	return div;
