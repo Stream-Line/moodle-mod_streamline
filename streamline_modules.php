@@ -12,10 +12,11 @@
 ?>
 
 <!-- Question: Are these the core dependencies required across all modules? Whats with the absolute path to 3rd-party.js? -->
-<script type="text/javascript" src="<?php Print($moodle_dir);?>/mod/streamline/3rd-party.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="streamline.css">
-<script src="Quiz/xml2json.min.js"></script>
+<script type="text/javascript" src="3rd-party.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="Quiz/xml2json.min.js"></script>
+<script type="text/javascript" src="global_functions.js"></script>
+<script type="text/javascript" src="js/kube.min.js"></script>
 
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -25,8 +26,10 @@
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-		
+
+<link rel="stylesheet" type="text/css" href="streamline.css">
 <link rel="stylesheet" type="text/css" href="Quiz/quiz.css">
+<link rel="stylesheet" href="css/kube.min.css" />
 
 <body>
 	<div id ="top_liveView">
