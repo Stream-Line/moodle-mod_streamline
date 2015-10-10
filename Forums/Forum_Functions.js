@@ -11,16 +11,13 @@
     Updates the page without having to refresh.
 */
 socket.on('forumback', function(post){
-	formatPost(post);
+	loadHistory([post]);
 });
 
 /*
     Gets triggered when page is loaded and loads in the forum history.
 */
-socket.on('loadedF', function(history){
-	for(var i in history)
-		formatPost(history[i]);
-});
+socket.on('loadedF', loadHistory);
 
 /*
 ===============================================
@@ -95,6 +92,21 @@ function Reply(pid){
 }
 
 /*
+	Extracts the data from the raw post message and formats it into an array.
+	New post format: "n|test question", returns "n|test question|npid+userid@time"
+	Reply format: "pid|test reply", returns "pid|test reply|npid+userid@time"
+*/
+function extractPostData(post){
+	return {
+		"pid"	: post.substring(0, post.indexOf("|")), // new post or id of parent post
+		"msg"	: post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
+		"npid"	: post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
+		"uid"	: post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@")), // user who owns the post
+		"date"	: post.substr(post.lastIndexOf("@")+1) // time/date of post
+	};
+}
+
+/*
 	Called when the user clicks send. Sends the formatted post to the server
 	and clears the text input. It also hides the 
 */
@@ -102,27 +114,27 @@ function PostF(message){
 	socket.emit('Forum', (prefix + message), cid, huid, cid.toString());
 }
 
-/* 	
-	Takes in the post message and appends it to the page based on post type and id 
-	New post format: "n|test question", returns "n|test question|npid+userid@time"
-	Reply format: "r|test reply|pid", returns "pid|test reply|npid+userid@time"
+/*
+	Loads the forum history in order by recursively calling itself, after the 
+	ajax requests have returned, until history is empty.
 */
-function formatPost(post){
-	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
-	// send an ajax request for users fullname
-	getUser(cid, sid, "fullname", function(name){
-		getUser(cid, sid, "displaypicture", function(dp){ // send ajax request for dp in html
-			var div = Post(
-				post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
-				post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
-				sid, name, dp, // user who owns the post
-				post.substr(post.lastIndexOf("@")+1) // time/date of post
-			);
-			if(post[0] == "n"){ // new post
+function loadHistory(history){
+	var post = history.shift();
+	var data = extractPostData(post);
+	getUser(cid, data["uid"], "fullname", function(name){ // send an ajax request for users fullname
+		getUser(cid, data["uid"], "displaypicture", function(dp){ // send ajax request for dp in html
+			var div = Post(data["npid"], data["msg"], data["uid"], name, dp, data["date"]);
+			if(data["pid"] == "n"){ // new post
 				$('#forum-area').prepend(div);
 			} else { // reply post
-				$('#'+post.substring(0, post.indexOf("|"))).append(div);
+				$('#'+data["pid"]).append(div);
 				div.classList.add("post-reply");
+			}
+			if(history.length > 0){
+				loadHistory(history);
+			} else {
+				$("#forum-loading").remove();
+				$("#forum-area").removeClass("hidden");
 			}
 		});
 	});

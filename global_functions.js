@@ -9,9 +9,15 @@
 	callback. Uses an ajax request on the created getUser.php in the main
 	streamline directory. This function has been moved to streamline_modules
 	as it allows the other modules access without having to rewrite this.
+	
+	Parameters are:
+		cid is the course module id ($cm->id)
+		uid is the user id
+		param is a string, one of the ones in getUser
+		callback is a function
 */
-function getUser(cid, sid, param, callback){
-	$.get("getUser.php", {"id" : cid, "uid" : sid, "param" : param}, callback);
+function getUser(cid, uid, param, callback){
+	$.get("getUser.php", {"id" : cid, "uid" : uid, "param" : param}, callback);
 }
 
 /*
@@ -26,7 +32,7 @@ function HyperLinks(msg){
 		for(var i in whiteList){
 			if(r[x].indexOf(whiteList[i]) != -1){
 			    var href = (whiteList[i] == "www") ? "http://"+r[x] : r[x];
-                r[x] = "<a href=" + href + " target=\"_blank\">" + r[x] + "</a>"
+                r[x] = "<a href=\"" + href + "\" target=\"_blank\">" + r[x] + "</a>";
 				break;
 			}
 		}
