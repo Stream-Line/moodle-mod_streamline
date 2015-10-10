@@ -71,16 +71,20 @@
 			
 		}
 	});
-	$('.quiz_button').click(function() {
-		//Add quiz javascript here
-	});
+
 	$('.fullscreen_button').click(function() {
 		toggleFullScreen(document.getElementById('middleContainer'));
-		
-		
 	});
 	
+	$('.forum_button').click(function() {
+		$('#forum_module').css("display",'block');
+		$('#chat_module').css("display",'none');
+	});
 	
+	$('.chat_button').click(function() {
+		$('#forum_module').css("display",'none');
+		$('#chat_module').css("display",'block');
+	});
 	
 
 	

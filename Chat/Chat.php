@@ -105,7 +105,7 @@
 					</div>
 				</ul>  
 </div>
-    <p class="chat_send_msg">Your message: </p>
+    <div class="chat_send_msg">Your message: </div>
 		<textarea id="sendie" rows="2"></textarea>
 </body>
 </html>

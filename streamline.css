@@ -147,13 +147,17 @@
 	padding-left: 1%;
 	overflow:visible;
 	visibility: hidden;
+	text-align: center;
 }
 
 #std_button {
 	box-sizing: border-box;
 	width: 33%;
-	float:left;
+    float: none;
+    display: inline-block;
 	height: auto;
+	margin-left: -4px;
+	vertical-align: middle;
 }
 
 .fullscreen_button {
@@ -183,6 +187,19 @@
 	height: 65vw;
 }
 
+.forum_button {
+    background:url(./images/forum_button.png) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}
+
+.chat_button {
+    background:url(./images/chat_button.png) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+}
+
+
 .fullscreen_button:hover {
     background:url(./images/fullscreen_button_down.png) no-repeat;
 	background-size: 100%;
@@ -198,6 +215,20 @@
 
 .leave_button:hover {
     background:url(./images/leave_button_down.png) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+	cursor: pointer;
+}
+
+.forum_button:hover {
+    background:url(./images/forum_button_down.png) no-repeat;
+	background-size: 100%;
+	height: 65vw;
+	cursor: pointer;
+}
+
+.chat_button:hover {
+    background:url(./images/chat_button_down.png) no-repeat;
 	background-size: 100%;
 	height: 65vw;
 	cursor: pointer;
