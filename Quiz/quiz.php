@@ -1,7 +1,7 @@
 <!-- Quiz -->
 
 <!-- Modal -->
-<div class="modal fade" id="quizModal" role="dialog">
+<div class="modal modal-transparent fade" id="quizModal" role="dialog">
 	<div class="modal-dialog">
 		<div class="modal-header header-shadow">
 			<button type="button" id="modal_close" class="close" data-dismiss="modal">&times;</button>
@@ -299,10 +299,10 @@
 				student_div = "student_overview_q"+(i+1);
 				class_div = "class_overview_q"+(i+1);
 		
-				$("#quizForm").append('<div class="summary_overview" id="'+summary_div+'"></div>');
+				$("#quizForm").append('<div class="summary_overview units-row units-split" id="'+summary_div+'"></div>');
 				
-				$("#"+summary_div+"").append('<div class="student_overview" id="'+student_div+'"></div>');
-				$("#"+summary_div+"").append('<div class="class_overview" id="'+class_div+'"></div>');
+				$("#"+summary_div+"").append('<div class="student_overview unit-50" id="'+student_div+'"></div>');
+				$("#"+summary_div+"").append('<div class="class_overview unit-50" id="'+class_div+'"></div>');
 		
 				question_div_id	= "question_" + (i+1);
 		
