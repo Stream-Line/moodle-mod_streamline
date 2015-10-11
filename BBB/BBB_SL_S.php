@@ -44,8 +44,8 @@
 				$('.fullscreen_button').css("display", "none");
 				$('.leave_button').css("display", "none");
 
-				$('.forum_button').css("display", "inline-block");	
-				$('.chat_button').css("display", "inline-block");								
+				$('.comm_button').css("display", "inline-block");	
+				$('.back_button').css("display", "inline-block");								
 
 				$('#webinar_buttons').css("position",'relative');
 				$('#webinar_buttons').css("z-index",'9998');
@@ -53,11 +53,18 @@
 				$('#webinar_buttons').css("background-color","#42444C");
 
 				$('#forum_module').css("z-index",'9998');
+				$('#forum_module').css("padding",'0');
+				
+				$('#forum_title').css("font-size", "1em");				
+				$('#forum_title').css("font-weight", "bold");
+				
 				$('#quizModal').css("z-index",'9999');
 				
 				$('#rightContainer').removeClass('unit-25');
 				$('#rightContainer').addClass('unit-100');
 				$('#rightContainer').css("height", "auto");
+				
+				$('#mainContainer').css("margin-bottom","0");
 				
 				$('#forum_module').css("display",'none');
 				$('#page').css("padding","0");

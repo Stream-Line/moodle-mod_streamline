@@ -187,14 +187,14 @@
 	height: 65vw;
 }
 
-.forum_button {
-    background:url(./images/forum_button.png) no-repeat;
+.back_button {
+    background:url(./images/back_button.png) no-repeat;
 	background-size: 100%;
 	height: 65vw;
 }
 
-.chat_button {
-    background:url(./images/chat_button.png) no-repeat;
+.comm_button {
+    background:url(./images/forum_button.png) no-repeat;
 	background-size: 100%;
 	height: 65vw;
 }
@@ -220,15 +220,8 @@
 	cursor: pointer;
 }
 
-.forum_button:hover {
-    background:url(./images/forum_button_down.png) no-repeat;
-	background-size: 100%;
-	height: 65vw;
-	cursor: pointer;
-}
-
-.chat_button:hover {
-    background:url(./images/chat_button_down.png) no-repeat;
+.back_button:hover {
+    background:url(./images/back_button_down.png) no-repeat;
 	background-size: 100%;
 	height: 65vw;
 	cursor: pointer;

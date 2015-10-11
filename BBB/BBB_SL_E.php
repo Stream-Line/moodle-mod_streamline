@@ -76,17 +76,26 @@
 		toggleFullScreen(document.getElementById('middleContainer'));
 	});
 	
-	$('.forum_button').click(function() {
-		$('#forum_module').css("display",'block');
-		$('#chat_module').css("display",'none');
+	$('.back_button').click(function() {
+		window.location.href = "http://60.241.60.47:9999/course/view.php?id=" + <?=json_encode($COURSE->id)?>;
 	});
 	
-	$('.chat_button').click(function() {
-		$('#forum_module').css("display",'none');
-		$('#chat_module').css("display",'block');
+	var mobile_option = false;
+	$('.comm_button').click(function() {
+		if(mobile_option) {
+			$('#forum_module').css("display",'block');
+			$('#chat_module').css("display",'none');
+			$('.comm_button').css("background", "url(./images/chat_button.png) no-repeat");			
+			$('.comm_button').css("background-size", "100%");
+			mobile_option = false;
+		} else {
+			$('#forum_module').css("display",'none');
+			$('#chat_module').css("display",'block');
+			$('.comm_button').css("background", "url(./images/forum_button.png) no-repeat");
+			$('.comm_button').css("background-size", "100%");
+			mobile_option = true;
+		}
 	});
-	
-
 	
   </script>
   
