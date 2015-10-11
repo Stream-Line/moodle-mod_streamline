@@ -32,7 +32,10 @@
                 <button id="btn-send-reply" class="btn-blue">Send</button>
             </div>
         </div>
-        <center id="forum-loading"><img src="pix/loading.gif"/></center>
+        <center>
+            <img id="forum-loading" src="pix/loading.gif"/>
+            <p id="forum-no-history" class="hidden">No forum history</p>
+        </center>
         <div id="forum-area" class="hidden"></div>
     </div>
 </div>
