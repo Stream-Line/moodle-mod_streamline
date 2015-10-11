@@ -119,25 +119,29 @@ function PostF(message){
 	ajax requests have returned, until history is empty.
 */
 function loadHistory(history){
-	var post = history.shift();
-	var data = extractPostData(post);
-	getUser(cid, data["uid"], "fullname", function(name){ // send an ajax request for users fullname
-		getUser(cid, data["uid"], "displaypicture", function(dp){ // send ajax request for dp in html
-			var div = Post(data["npid"], data["msg"], data["uid"], name, dp, data["date"]);
-			if(data["pid"] == "n"){ // new post
-				$('#forum-area').prepend(div);
-			} else { // reply post
-				$('#'+data["pid"]).append(div);
-				div.classList.add("post-reply");
-			}
-			if(history.length > 0){
+	if(!history){
+		$("#forum-loading").remove();
+		$("#forum-no-history").removeClass("hidden");
+	} else if(history.length > 0){
+		var post = history.shift();
+		var data = extractPostData(post);
+		getUser(cid, data["uid"], "fullname", function(name){ // send an ajax request for users fullname
+			getUser(cid, data["uid"], "displaypicture", function(dp){ // send ajax request for dp in html
+				var div = Post(data["npid"], data["msg"], data["uid"], name, dp, data["date"]);
+				if(data["pid"] == "n"){ // new post
+					$('#forum-area').prepend(div);
+				} else { // reply post
+					$('#'+data["pid"]).append(div);
+					div.classList.add("post-reply");
+				}
 				loadHistory(history);
-			} else {
-				$("#forum-loading").remove();
-				$("#forum-area").removeClass("hidden");
-			}
+			});
 		});
-	});
+	} else {
+		$("#forum-loading").remove();
+		$("#forum-no-history").remove();
+		$("#forum-area").removeClass("hidden");
+	}
 }
 
 /*
