@@ -35,7 +35,7 @@
 	<div id ="top_liveView">
 		<div id="recordStatus" class="recordStatus_Off"> This Lecture is not being recorded </div>
 	</div>
-	<div class="units-row units-split">
+	<div id="mainContainer" class="units-row units-split">
 		<!-- Container for the webinar/BigBlueButton -->
 		<div class="unit-75" id="middleContainer">
 			<!-- Question: Why is this not just a one line php include? -->
@@ -84,18 +84,26 @@
 		<div class="unit-25" id="rightContainer">
 			<!-- Menu buttons above the Chat -->
 			<div id="webinar_buttons">
+				<!-- The back and comm buttons are only used for mobile devices -->
+				<div id="std_button" class="back_button" title="Back" style="display: none">
+					<img src="./images/back_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+				</div>
+				<div id="std_button" class="comm_button" title="Chat" style="display: none">
+					<img src="./images/chat_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+				</div>
+				<!-- The full screen and logout button are for desktop devices -->
 				<div id="std_button" class="fullscreen_button" title="Full screen">
 					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
 				</div>
 				<div id="std_button" class="quiz_button" class="dropdown" id="dropdownMenu1" title="Quiz">
 				  <div class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					<img src="./images/quiz_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
 				  </div>
 				  <ul id="quiz_menu" class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				  </ul>
 				</div>
 				<div id="std_button" class="leave_button" title="Exit">
-					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					<img src="./images/leave_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
 				</div>
 			</div>
 			

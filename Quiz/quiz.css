@@ -3,6 +3,7 @@
 	width: 60%;
 	left: 20%;
 	bottom: 10%;
+	padding-right: 0px !important;
 }
 
 .modal-footer {
@@ -127,10 +128,13 @@
 .quiz_loading {
 
 	background:url(./images/loading.gif) no-repeat center center;
-
-
 }
 
 .quiz_loading_img {
 	visibility: hidden;
+}
+
+#quiz_menu {
+	margin: 0px;
+	padding: 0px;
 }
