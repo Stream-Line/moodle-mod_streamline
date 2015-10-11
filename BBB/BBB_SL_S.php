@@ -26,8 +26,8 @@
 
 		$( document ).ready(function() {
 		
-			//mobile = mobileCheck();
-			mobile = true;
+			mobile = mobileCheck();
+			//mobile = true;
 			if(mobile) {
 				$( "header" ).remove( ".navbar" );
 				$('#page-header').remove();
@@ -35,6 +35,7 @@
 				$('#top_liveView').remove();
 				removeMoodleDock();
 				$('#page-footer').remove();
+				$('#maincontent').remove();
 				
 				$('#chat_module').css("position",'relative');
 				$('#chat_module').css("z-index",'9997');
@@ -60,6 +61,10 @@
 				
 				$('#forum_module').css("display",'none');
 				$('#page').css("padding","0");
+				
+				$('#quizModal').css("width", "100%");
+				$('#quizModal').css("left", "0px");
+				$('#quizModal').css("top", "0px");
 
 			}
 			//Adjust webinar buttons if required
