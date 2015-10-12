@@ -25,7 +25,43 @@
 	width: 100%;  
 }
 
-#date { float: right; color: black; font-size: 10px; }
+.date P{ float: right; color: black; font-size: 10px; }
+
+
+
+.chat-dp img {
+    float: left;
+    width: 2.5em;
+    height: 2.5em;
+    overflow: hidden;
+
+
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
+
+/*I tryied to make it float right for your messages */
+.chat-dp-usr img {
+    float: right; 
+    margin: 0 0 10px 10px;
+    width: 2.5em;
+    height: 2.5em;
+}
+
+#chat li {
+	display: flex;
+	float: left;
+	width: 100%;
+}
+
+.user_name {
+    text-transform:capitalize;
+    font-weight: bold;
+}
+
+.chat_msg p { word-break: break-all }
 
 /* AKSHAY 16/7/20115 */
 #chat {
@@ -52,14 +88,18 @@
 	padding:0; 
 }
 
+.chat_msg p { word-break: break-all }
+
 .msg_name {
 	float: left;
 	margin-right: 5px;
 }
 
-.msg_text {
+.msg_text {word-wrap: normal;
+ display: inline-block;
 	margin-right: 40px;
 }
+
 
 .chat_send_msg {
 	position: relative;
@@ -67,11 +107,12 @@
 	background-color:#FFFFFF;
 }
 
-.Shader_G{
+
+#Shader_G{
 	background: #E6E6E6;
 }
 
-.Shader_W{
+#Shader_W{
 	background: #FFFFFF;
 }
 
