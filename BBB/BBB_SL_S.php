@@ -21,6 +21,7 @@
 		function removeMoodleDock() {
 			setTimeout(function () {
 				$('#dock').remove();
+				updatChatModuleHeight(containerHeight);
 			}, 5000);
 		}
 		

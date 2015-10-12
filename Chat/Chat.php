@@ -39,6 +39,7 @@
 				var list_element  = document.createElement("li"); // main list element
 				var dp   = document.createElement("div");
 				var Dmain = document.createElement("div");
+				$(Dmain).addClass("msg_body");
 
 				if(order % 2 == 0){ 
 					list_element.id = "Shader_G";
@@ -59,7 +60,7 @@
 				
 				var block = 
 		"<span class='user_name'>"+usr_name+"</span>"+
-		"<p clase='date'>  "+time+"</p> <br>"+
+		"<div class='date'>  "+time+"</div> <br>"+
 		"<p class='msg_text'>"+text+"</p>";
 
 				Dmain.innerHTML = block;
