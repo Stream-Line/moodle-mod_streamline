@@ -13,7 +13,13 @@
 	$sql =  "SELECT id, quizid, streamlineid, courseid, userid, answers FROM mdl_streamline_quiz WHERE streamlineid= '".$sid."' AND courseid= '".$cid."' AND quizid= '".$qid."'";
 	$records = $DB->get_records_sql($sql); //array($string_sid ,$string_cid ,$string_qid)
 
-	
+	 //////////////////////////////////////////////////////////////////////////
+	 /* This Returns the number of people who have responded for this quiz*/
+	 /////////////////////////////////////////////////////////////////////////
+	 $sql = "SELECT COUNT(id) FROM mdl_streamline_quiz WHERE streamlineid= '".$sid."' AND courseid= '".$cid."' AND quizid= '".$qid."'";
+	 
+	 $PPL = $DB->count_records_sql($sql);
+ 
 	$answers = null;
 	$answers_count = 0;
 	foreach ($records as $id => $record) {
@@ -187,7 +193,8 @@
 	$results = new stdClass();
 	$results->quiz="Quiz " . $qid;
 	$results->data = $data_array;
-
+	$results->people = $PPL;
+	
 	echo json_encode($results);
 
 ?>

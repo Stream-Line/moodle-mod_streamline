@@ -245,7 +245,6 @@
 	
 		$('.modal-title').text("Quiz " + (id));
 		$("#quizForm").empty();
-		
 		console.log("Obtaining Results");
 		
 		var sid = <?=json_encode($streamline->id)?>;
@@ -273,6 +272,8 @@
 	
 	var question_summary_height = -1;
 	function displayQuizSummary(data) {
+	
+		$("#quizForm").append("<div id='quiz_count'><b>Student Responses </b> <span class='badge'>"+data.people+"</span></div>");
 	
 		var answers = obtainAnswers(currentQuizId-1);
 		console.log(answers);

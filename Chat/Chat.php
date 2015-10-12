@@ -71,6 +71,7 @@
 				
 
 				$('#chat').append(list_element);
+				$("#chat").animate({ scrollTop: 10000000 }, "slow");
 			});
 		});
 	}
