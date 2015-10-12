@@ -98,10 +98,8 @@
 	});
 
 	socket.on('loaded', function(history){
-		alert('trying to load history :'+history+' <- is there something?');
 		history = history.toString();
 		var myHis = history.split(",");
-		alert('myHistory : '+ myHis);
 		for(x in myHis){
  			FormatMessage(myHis[x]);
 		  $("#chat").animate({ scrollTop: 10000000 }, "fast");
