@@ -4,14 +4,11 @@
     <link rel="stylesheet" href="css/kube.min.css" />
  	<link rel="stylesheet" type="text/css" href="kube.css">
 	<link rel="stylesheet" type="text/css" href="Chat/chat.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
     <script src="js/kube.min.js"></script>
     <link rel="stylesheet" type="text/css" href="streamline.css">
 
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
-
+	
   <script type="text/javascript">	
 
 /* global getUser, HyperLinks */

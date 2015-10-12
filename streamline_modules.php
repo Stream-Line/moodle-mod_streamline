@@ -27,6 +27,12 @@
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
+<!-- Mobile Materialize CSS and JavaScript Dependencies -->
+<!--Import Google Icon Font-->
+<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.1/js/materialize.min.js"></script>
+
+		
 <link rel="stylesheet" type="text/css" href="streamline.css">
 <link rel="stylesheet" type="text/css" href="Quiz/quiz.css">
 <link rel="stylesheet" href="css/kube.min.css" />
@@ -84,27 +90,51 @@
 		<div class="unit-25" id="rightContainer">
 			<!-- Menu buttons above the Chat -->
 			<div id="webinar_buttons">
-				<!-- The back and comm buttons are only used for mobile devices -->
-				<div id="std_button" class="back_button" title="Back" style="display: none">
-					<img src="./images/back_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+				<div id="desktop_UI">
+					<!-- The back and comm buttons are only used for mobile devices -->
+					<div id="std_button" class="back_button" title="Back" style="display: none">
+						<img src="./images/back_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					</div>
+					<div id="std_button" class="comm_button" title="Chat" style="display: none">
+						<img src="./images/chat_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					</div>
+					<!-- The full screen and logout button are for desktop devices -->
+					<div id="std_button" class="fullscreen_button" title="Full screen">
+						<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					</div>
+					<div id="std_button" class="quiz_button" class="dropdown" id="dropdownMenu1" title="Quiz">
+					  <div class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<img src="./images/quiz_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					  </div>
+					  <ul id="quiz_menu" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					  </ul>
+					</div>
+					<div id="std_button" class="leave_button" title="Exit">
+						<img src="./images/leave_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
+					</div>
 				</div>
-				<div id="std_button" class="comm_button" title="Chat" style="display: none">
-					<img src="./images/chat_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
-				</div>
-				<!-- The full screen and logout button are for desktop devices -->
-				<div id="std_button" class="fullscreen_button" title="Full screen">
-					<img src="./images/fullscreen_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
-				</div>
-				<div id="std_button" class="quiz_button" class="dropdown" id="dropdownMenu1" title="Quiz">
-				  <div class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<img src="./images/quiz_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
-				  </div>
-				  <ul id="quiz_menu" class="dropdown-menu" aria-labelledby="dropdownMenu1">
-				  </ul>
-				</div>
-				<div id="std_button" class="leave_button" title="Exit">
-					<img src="./images/leave_button.png" style='width: 100%; object-fit: contain; visibility:hidden' />
-				</div>
+				<!-- Contained for the Mobile Inteface -->
+				<nav id="mobile_UI">
+					<a href="#!" class="brand-logo">StreamLine</a>
+					<ul id="slide-out" class="side-nav" style="left: -250px;">
+						<li><a id="chat_mobile_button" href="#"><i class="material-icons right">forum</i>Chat</a></li>
+						<li><a id="forum_mobile_button" href="#"><i class="material-icons right">group</i>Forum</a></li>
+
+						<li class="no-padding">
+						  <ul class="collapsible collapsible-accordion">
+							<li>
+							  <a class="collapsible-header"><i class="material-icons right">assessment</i>Quiz<i class="mdi-navigation-arrow-drop-down"></i></a>
+							  <div class="collapsible-body" style="display: none;">
+								<ul id="quiz_mobile_menu">
+								</ul>
+							  </div>
+							</li>
+						  </ul>
+						</li>
+						<li><a id="exit_mobile_button" href="#"><i class="material-icons right">exit_to_app</i>Exit</a></li>
+					</ul>
+					<a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+				</nav>
 			</div>
 			
 			<!-- Loads the chat module-->

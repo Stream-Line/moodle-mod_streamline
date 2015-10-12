@@ -81,6 +81,8 @@
 		for(i=0; i< quizJSON.quizzes.quiz.length; i++) {
 			var quiz = "<li class='quizOption' data-toggle='modal' data-target='#quizModal' onclick='SubmissionCheck("+(i)+")'>Quiz "+(i+1)+"</li>";
 			$("#quiz_menu").append(quiz);
+			var quiz = "<li data-toggle='modal' data-target='#quizModal' onclick='SubmissionCheck("+(i)+")'><a href='#!'>Quiz "+(i+1)+"</a></li>";
+			$("#quiz_mobile_menu").append(quiz);
 			quizCompleted.push(false);
 		}		
 	} else {
@@ -88,6 +90,8 @@
 		i = 0;
 		var quiz = "<li class='quizOption' data-toggle='modal' data-target='#quizModal' onclick='SubmissionCheck("+(i)+")'>Quiz "+(i+1)+"</li>";
 		$("#quiz_menu").append(quiz);
+		var quiz = "<li data-toggle='modal' data-target='#quizModal' onclick='SubmissionCheck("+(i)+")'><a href='#!'>Quiz "+(i+1)+"</a></li>";
+		$("#quiz_mobile_menu").append(quiz);			
 		quizCompleted.push(false);
 	}
 	
