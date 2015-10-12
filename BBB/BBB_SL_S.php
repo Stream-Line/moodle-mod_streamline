@@ -32,7 +32,6 @@
 		$( document ).ready(function() {
 		
 			mobile = mobileCheck();
-			mobile = true;
 			if(mobile) {
 				loadCSS('./css/materialize.css');
 				
