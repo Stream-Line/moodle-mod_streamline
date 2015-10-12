@@ -131,6 +131,7 @@
 							</li>
 						  </ul>
 						</li>
+						<li><a id="exit_mobile_button" href="#"><i class="material-icons right">exit_to_app</i>Exit</a></li>
 					</ul>
 					<a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
 				</nav>
