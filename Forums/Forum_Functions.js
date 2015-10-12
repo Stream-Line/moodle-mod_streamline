@@ -4,36 +4,20 @@
 ==================================
 */
 
+/* global socket */
+
 /*
     Gets triggered when someone posts to the forum. 
     Updates the page without having to refresh.
 */
 socket.on('forumback', function(post){
-	formatPost(post);
-	/*
-	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
-	// send an ajax request for users fullname, then format the post
-	getUser(sid, "fullname", function(name){
-		formatPost(post, sid, name);
-	});
-	*/
+	loadHistory([post]);
 });
 
 /*
     Gets triggered when page is loaded and loads in the forum history.
 */
-socket.on('loadedF', function(history){
-	for(var i in history){
-		formatPost(history[i]);
-		/*
-		var sid = history[i].substring(history[i].lastIndexOf("+")+1, history[i].lastIndexOf("@"));
-		// send an ajax request for users fullname, then format the post
-		getUser(sid, "fullname", function(name){
-			formatPost(history[i], sid, name);
-		});
-		*/
-	}
-});
+socket.on('loadedF', loadHistory);
 
 /*
 ===============================================
@@ -41,6 +25,7 @@ socket.on('loadedF', function(history){
 ===============================================
 */
 
+/* global getUser, HyperLinks */
 var prefix = ""; // variable to hold whether post is new or a reply
 var cid, huid, uid; // global variables for reference
 
@@ -55,7 +40,7 @@ function init(courseid, hasheduserid, userid){
 	this.huid = hasheduserid;
 	this.uid = userid;
 	setupEventHandlers();
-	getUser(uid, "displaypicture", function(code){
+	getUser(cid, uid, "displaypicture", function(code){
 		$("#forum-user-dp-main").html(code);
 		$("#forum-user-dp-reply").html(code);
 	});
@@ -107,6 +92,21 @@ function Reply(pid){
 }
 
 /*
+	Extracts the data from the raw post message and formats it into an array.
+	New post format: "n|test question", returns "n|test question|npid+userid@time"
+	Reply format: "pid|test reply", returns "pid|test reply|npid+userid@time"
+*/
+function extractPostData(post){
+	return {
+		"pid"	: post.substring(0, post.indexOf("|")), // new post or id of parent post
+		"msg"	: post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
+		"npid"	: post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
+		"uid"	: post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@")), // user who owns the post
+		"date"	: post.substr(post.lastIndexOf("@")+1) // time/date of post
+	};
+}
+
+/*
 	Called when the user clicks send. Sends the formatted post to the server
 	and clears the text input. It also hides the 
 */
@@ -115,40 +115,33 @@ function PostF(message){
 }
 
 /*
-	Generic function that takes in uid, desired user info and function to
-	callback. Uses an ajax request on the created getUser.php in the main
-	streamline directory. I will likely move this function to streamline_modules
-	as it would allow the other modules access without having to rewrite this.
+	Loads the forum history in order by recursively calling itself, after the 
+	ajax requests have returned, until history is empty.
 */
-function getUser(sid, param, callback){
-	$.get("getUser.php", {"id" : cid, "uid" : sid, "param" : param}, callback);
-}
-
-/* 	
-	Takes in the post message and appends it to the page based on post type and id 
-	New post format: "n|test question", returns "n|test question|npid+userid@time"
-	Reply format: "r|test reply|pid", returns "pid|test reply|npid+userid@time"
-*/
-function formatPost(post){
-	var sid = post.substring(post.lastIndexOf("+")+1, post.lastIndexOf("@"));
-	// send an ajax request for users fullname
-	getUser(sid, "fullname", function(name){
-		getUser(sid, "displaypicture", function(dp){
-			var div = Post(
-		    	post.substring(post.lastIndexOf("|")+1, post.lastIndexOf("+")), // new post id
-		    	post.substring(post.indexOf("|")+1, post.lastIndexOf("|")), // message
-		    	sid, name, dp, // user who owns the post
-		    	post.substr(post.lastIndexOf("@")+1) // time/date of post
-		    );
-		    
-		    if(post[0] == "n"){ // new post
-		        $('#forum-area').prepend(div);
-		    } else { // reply post
-		        $('#'+post.substring(0, post.indexOf("|"))).append(div);
-		        div.classList.add("post-reply");
-		    }
+function loadHistory(history){
+	if(!history){
+		$("#forum-loading").remove();
+		$("#forum-no-history").removeClass("hidden");
+	} else if(history.length > 0){
+		var post = history.shift();
+		var data = extractPostData(post);
+		getUser(cid, data["uid"], "fullname", function(name){ // send an ajax request for users fullname
+			getUser(cid, data["uid"], "displaypicture", function(dp){ // send ajax request for dp in html
+				var div = Post(data["npid"], data["msg"], data["uid"], name, dp, data["date"]);
+				if(data["pid"] == "n"){ // new post
+					$('#forum-area').prepend(div);
+				} else { // reply post
+					$('#'+data["pid"]).append(div);
+					div.classList.add("post-reply");
+				}
+				loadHistory(history);
+			});
 		});
-	});
+	} else {
+		$("#forum-loading").remove();
+		$("#forum-no-history").remove();
+		$("#forum-area").removeClass("hidden");
+	}
 }
 
 /*
@@ -157,14 +150,14 @@ function formatPost(post){
 */
 function Post(pid, message, sid, name, dp, time){
 	var div = document.createElement("div");
-    div.id = pid;
-    div.classList.add("forum-post");
-    
+	div.id = pid;
+	div.classList.add("forum-post");
+	
 	div.appendChild(newUserDP(dp)); // append display picture of user
 	div.appendChild(newPostContents(name, message, time)); // append the contents of the post 
 	div.appendChild(newReplyButton(pid)); // append reply button
 	
-    return div;
+	return div;
 }
 
 /*	
@@ -175,12 +168,6 @@ function newUserDP(html){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-dp");
 	div.innerHTML = html;
-	/*
-	// send an ajax request for users display picture, then add it to div
-	getUser(sid, "displaypicture", function(code){
-		div.innerHTML = code;
-	});
-	*/
 	
 	return div;
 }
@@ -210,8 +197,9 @@ function newPostContents(name, message, time){
 	
 	var mdiv = document.createElement("div"); // message div
 	var msg = document.createElement("p");
-	msg.textContent = message;
+	msg.innerHTML = HyperLinks(message);
 	mdiv.appendChild(msg);
+
 	div.appendChild(mdiv);
 	
 	return div;
@@ -223,10 +211,10 @@ function newPostContents(name, message, time){
 function newReplyButton(pid){
 	var reply_btn = document.createElement("button");
 	reply_btn.classList.add("btn-blue");
-    reply_btn.textContent = "Reply";
-    reply_btn.onclick = function() { Reply(pid); };
-    
-    return reply_btn;
+	reply_btn.textContent = "Reply";
+	reply_btn.onclick = function() { Reply(pid); };
+	
+	return reply_btn;
 }
 
 /*	ideal forum post div
