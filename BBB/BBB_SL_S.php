@@ -17,18 +17,25 @@
 
 		var mobile = false;
 		
-		
+		//Mobile Device Use
 		function removeMoodleDock() {
 			setTimeout(function () {
 				$('#dock').remove();
 			}, 5000);
 		}
+		
+		function loadCSS(url) {
+			if (!$('link[href="' + url + '"]').length)
+				$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '">');
+		}
 
 		$( document ).ready(function() {
 		
 			mobile = mobileCheck();
-			//mobile = true;
+			mobile = true;
 			if(mobile) {
+				loadCSS('./css/materialize.css');
+				
 				$( "header" ).remove( ".navbar" );
 				$('#page-header').remove();
 				$('#middleContainer').remove();
@@ -37,6 +44,34 @@
 				$('#page-footer').remove();
 				$('#maincontent').remove();
 				
+				$('#desktop_UI').empty();
+				$('#mobile_UI').css("display", "block");
+
+				var mobile_option = false;
+				$('#chat_mobile_button').click(function() {
+					$('.button-collapse').sideNav('hide');
+						$('#forum_module').css("display",'none');
+						$('#chat_module').css("display",'block');
+				});
+				
+				$('#forum_mobile_button').click(function() {
+					$('.button-collapse').sideNav('hide');
+						$('#forum_module').css("display",'block');
+						$('#chat_module').css("display",'none');
+				});				
+				
+				
+				$('#exit_mobile_button').click(function() {
+					$('.button-collapse').sideNav('hide');
+					window.location.href = "http://60.241.60.47:9999/course/view.php?id=" + <?=json_encode($COURSE->id)?>;
+				});
+				
+				$('#quiz_mobile_menu').click(function() {
+					$('.button-collapse').sideNav('hide');
+				});
+				
+				$(".button-collapse").sideNav();
+
 				$('#chat_module').css("position",'relative');
 				$('#chat_module').css("z-index",'9997');
 				$('#chat_module').css("padding","0");
