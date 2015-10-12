@@ -76,10 +76,6 @@
 		toggleFullScreen(document.getElementById('middleContainer'));
 	});
 	
-	$('.back_button').click(function() {
-		window.location.href = "http://60.241.60.47:9999/course/view.php?id=" + <?=json_encode($COURSE->id)?>;
-	});
-	
 	
   </script>
   
