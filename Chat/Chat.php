@@ -1,8 +1,6 @@
 
 <html>
 
-<head>
-
     <link rel="stylesheet" href="css/kube.min.css" />
  	<link rel="stylesheet" type="text/css" href="kube.css">
 	<link rel="stylesheet" type="text/css" href="Chat/chat.css">
@@ -13,55 +11,78 @@
 	
   <script type="text/javascript">	
 
+/* global getUser, HyperLinks */
+
 	$(document).ready(function() {
 		$("#chat").animate({ scrollTop: $('#scroll_down').height() }, "fast");
 		return false;
 	});
 
 	var id = <?=json_encode($cm->id)?>;
+	var cstuid = <?=json_encode($USER->id)?>;
+	var chars = [":)",":(",";)",">:)",":'(",":p"];
+	var emoti = ["&#128512","&#128542","&#128521","&#128520","&#128546","&#128523"];
+	var order = 0; // to change the colour of the messages
 
 	function loading(){
 		socket.emit('Load',<?=json_encode($stuval)?>,id);
 		socket.emit('LoadF',<?=json_encode($stuval)?>,id);
 	}
 
-	function HyperLinks(msg){
-    var r = msg.split(" ");
-    var whiteList = ["http","https","www"];
 
-    for(var x in r){
-      if( StrContains(r[x],whiteList) == true){
-        var link = r[x].link(r[x]);
-        r[x] = link;
-      }
-    }
-    r = r.join(" ");
-    return r;
+	function FormatMessage(msg){
+		var stuid = msg.substring(msg.lastIndexOf("+")+1, msg.lastIndexOf("@"));
+				
+		getUser(cid, stuid, "fullname", function(usr_name){
+			getUser(cid, stuid, "displaypicture", function(dp_html){
+
+				var list_element  = document.createElement("li"); // main list element
+				var dp   = document.createElement("div");
+				var Dmain = document.createElement("div");
+				$(Dmain).addClass("msg_body");
+
+				if(order % 2 == 0){ 
+					list_element.id = "Shader_G";
+				}else{
+					list_element.id = "Shader_W";
+				}
+
+				order = order + 1;
+
+				dp.classList.add("chat-dp");
+				list_element.classList.add("chat_msg");
+				dp.innerHTML = dp_html;
+
+				var time =  msg.substr(msg.lastIndexOf("@")+1);	
+				var text =  msg.substring(0,msg.lastIndexOf("+"));
+				text =HyperLinks(text);
+				text =Emoticon(text);
+				
+				var block = 
+		"<span class='user_name'>"+usr_name+"</span>"+
+		"<div class='date'>  "+time+"</div> <br>"+
+		"<p class='msg_text'>"+text+"</p>";
+
+				Dmain.innerHTML = block;
+
+				list_element.appendChild(dp);
+				list_element.appendChild(Dmain);
+
+				
+
+				$('#chat').append(list_element);
+				$("#chat").animate({ scrollTop: 10000000 }, "slow");
+			});
+		});
 	}
 
-	function StrContains(val, arr){
-	   for(var x in arr){
-		if(val.includes(arr[x])){
-		    return true;
+	function Emoticon(msg){
+		for( x in chars){
+			msg = msg.replace(chars[x],emoti[x]);
 		}
-	    }
-	    return false;
+		return msg;
 	}
 
-	//http://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-an-url
-	function ValidURL(str) {
-	  var pattern = new RegExp('^(https?:\/\/)?'+ // protocol
-	    '((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'+ // domain name
-	    '((\d{1,3}\.){3}\d{1,3}))'+ // OR ip (v4) address
-	    '(\:\d+)?(\/[-a-z\d%_.~+]*)*'+ // port and path
-	    '(\?[;&a-z\d%_.~+=-]*)?'+ // query string
-	    '(\#[-a-z\d_]*)?$','i'); // fragment locater
-	  if(!pattern.test(str)) {
-	    return false;
-	  } else {
-	    return true;
-	  }
-	}
 
 	$(function() { $("#sendie").keydown(
 		function(event) {  
@@ -73,18 +94,18 @@
 	});
 
 	socket.on('messback', function(message){
-	    $('#chat').append(HyperLinks(message)); 
+	    FormatMessage(message); 
 	    $("#chat").animate({ scrollTop: 10000000 }, "slow");
 	});
 
 	socket.on('loaded', function(history){
-		$('#chat').append(history);
-		$("#chat").animate({ scrollTop: 10000000 }, "fast");
+		history = history.toString();
+		var myHis = history.split(",");
+		for(x in myHis){
+ 			FormatMessage(myHis[x]);
+		  $("#chat").animate({ scrollTop: 10000000 }, "fast");
+		}
 	});
-
-	//socket.on('connect', function(){
-	//	$('#chat').append("G2G");
-	//});
 
 	window.onbeforeunload = function(e) {
 		socket.emit('disconnect',id,<?=json_encode($stuval)?>,sid);
@@ -92,7 +113,6 @@
 
 
     </script>
-</head>
 
 <body onload="loading()">
 <div id='scroll_down'>

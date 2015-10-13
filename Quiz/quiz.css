@@ -138,3 +138,8 @@
 	margin: 0px;
 	padding: 0px;
 }
+
+#quiz_count {
+	text-align: right;
+	padding-bottom: 20px;
+}
