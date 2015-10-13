@@ -37,10 +37,6 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
     } catch (Exception $e) {
 				fwrite($testFile, 'error '.$e.'\n');
     }
- 
-    fwrite($testFile, 'completed 5 '.'\n');
- 
-    fclose($testFile);
 
 
 ?>

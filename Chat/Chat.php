@@ -39,6 +39,7 @@
 				var list_element  = document.createElement("li"); // main list element
 				var dp   = document.createElement("div");
 				var Dmain = document.createElement("div");
+				$(Dmain).addClass("msg_body");
 
 				if(order % 2 == 0){ 
 					list_element.id = "Shader_G";
@@ -59,7 +60,7 @@
 				
 				var block = 
 		"<span class='user_name'>"+usr_name+"</span>"+
-		"<p clase='date'>  "+time+"</p> <br>"+
+		"<div class='date'>  "+time+"</div> <br>"+
 		"<p class='msg_text'>"+text+"</p>";
 
 				Dmain.innerHTML = block;
@@ -70,6 +71,7 @@
 				
 
 				$('#chat').append(list_element);
+				$("#chat").animate({ scrollTop: 10000000 }, "slow");
 			});
 		});
 	}
@@ -97,10 +99,8 @@
 	});
 
 	socket.on('loaded', function(history){
-		alert('trying to load history :'+history+' <- is there something?');
 		history = history.toString();
 		var myHis = history.split(",");
-		alert('myHistory : '+ myHis);
 		for(x in myHis){
  			FormatMessage(myHis[x]);
 		  $("#chat").animate({ scrollTop: 10000000 }, "fast");

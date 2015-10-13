@@ -106,11 +106,11 @@ $moderator = has_capability('mod/streamline:moderate', $context);
 
     if ( $administrator && ($streamline -> quiz_xml) == null)
 	{
-		include "quiz/quizForm.php";
+		include "Quiz/quizForm.php";
 	}
     else if ( $moderator && ($streamline -> quiz_xml) == null)
 	{	
-		include "quiz/quizForm.php";
+		include "Quiz/quizForm.php";
 	}
 	else
 	{

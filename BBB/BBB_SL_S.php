@@ -21,6 +21,7 @@
 		function removeMoodleDock() {
 			setTimeout(function () {
 				$('#dock').remove();
+				updatChatModuleHeight(containerHeight);
 			}, 5000);
 		}
 		
@@ -32,7 +33,6 @@
 		$( document ).ready(function() {
 		
 			mobile = mobileCheck();
-			mobile = true;
 			if(mobile) {
 				loadCSS('./css/materialize.css');
 				
