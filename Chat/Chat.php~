@@ -31,7 +31,7 @@
 
 
 	function FormatMessage(History){
-		var msg = History[0];
+	var msg = History[0];
 		var stuid = msg.substring(msg.lastIndexOf("+")+1, msg.lastIndexOf("@"));
 				
 		getUser(cid, stuid, "fullname", function(usr_name){
@@ -102,14 +102,17 @@
 	});
 
 	socket.on('messback', function(message){
-	    FormatMessage([message]);
+	    FormatMessage(message); 
 	    $("#chat").animate({ scrollTop: 10000000 }, "slow");
 	});
 
 	socket.on('loaded', function(history){
 		history = history.toString();
 		var myHis = history.split(",");
-		FormatMessage(myHis);
+		for(x in myHis){
+ 			FormatMessage(myHis[x]);
+		  $("#chat").animate({ scrollTop: 10000000 }, "fast");
+		}
 	});
 
 	window.onbeforeunload = function(e) {
