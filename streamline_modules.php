@@ -35,7 +35,8 @@
 		
 <link rel="stylesheet" type="text/css" href="streamline.css">
 <link rel="stylesheet" type="text/css" href="Quiz/quiz.css">
-<link rel="stylesheet" href="css/kube.min.css" />
+<link rel="stylesheet" type="text/css" href="css/kube.css">
+<link rel="stylesheet" type="text/css" href="css/kube.min.css" />
 
 <body>
 	<div id ="top_liveView">

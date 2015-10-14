@@ -1,11 +1,7 @@
 
 <html>
-
-    <link rel="stylesheet" href="css/kube.min.css" />
- 	<link rel="stylesheet" type="text/css" href="kube.css">
-	<link rel="stylesheet" type="text/css" href="Chat/chat.css">
+	<link rel="stylesheet" type="text/css" href="Chat/style.css">
     <script src="js/kube.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="streamline.css">
 
 	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 	
@@ -32,7 +28,7 @@
 
 	function FormatMessage(msg){
 		var stuid = msg.substring(msg.lastIndexOf("+")+1, msg.lastIndexOf("@"));
-				
+		//alert("Recieved message from chat history: " + msg);
 		getUser(cid, stuid, "fullname", function(usr_name){
 			getUser(cid, stuid, "displaypicture", function(dp_html){
 
