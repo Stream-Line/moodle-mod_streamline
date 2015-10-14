@@ -247,8 +247,11 @@ function newReplyButton(pid){
 		getUser(cid, uid, "displaypicture", function(code){ // get user display pic
 			var input = newForumTextArea(pid+"|", code);
 			input.classList.add("post-reply");
-			var parent = reply_btn.parentNode;
-			parent.parentNode.insertBefore(input, parent.nextSibling);
+			var parent = reply_btn.parentNode.parentNode;
+			if(parent.parentNode.getAttribute("id") != "forum-area")
+				parent.parentNode.insertBefore(input, parent.nextSibling);
+			else
+				parent.insertBefore(input, parent.children[3]);
 			input.getElementsByTagName("textarea")[0].focus();
 		});
 	};
