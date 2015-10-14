@@ -23,20 +23,23 @@
     // end boiler plate
     
     // check uid and a parameter have been passed
-    if(isset($_GET["uid"]) && isset($_GET["param"])){
-        $usr = $DB->get_record('user', array('id'=>$_GET["uid"]), '*', MUST_EXIST); // gets user from db
-        switch($_GET["param"]){ // add more cases here if you want more functionality
-            case "fullname":
-                echo $usr->firstname . " " . $usr->lastname; // returns string
+    if(isset($_GET['uid']) && isset($_GET['param'])){
+        $usr = $DB->get_record('user', array('id'=>$_GET['uid']), '*', MUST_EXIST); // gets user from db
+        switch($_GET['param']){ // add more cases here if you want more functionality
+            case 'fullname':
+                echo $usr->firstname . ' ' . $usr->lastname; // returns string
                 break;
-            case "displaypicture":
+            case 'displaypicture':
                 echo $OUTPUT->user_picture($usr, array('size'=>100)); // returns html string
                 break;
-            case "user":
+            case 'user':
                 echo json_encode($usr); // returns user object. NOTE: "json" must be set as the datatype in the ajax expression!!
                 break;
+            case 'profile':
+                echo substr($_SERVER['REQUEST_URI'], 0, strpos('/mod/', $_SERVER['REQUEST_URI'])).'/user/profile.php?id='.$_GET['uid'];
+                break;
             default:
-                echo "no parameters matched"; break;
+                echo 'no parameters matched'; break;
         }
         return;
     }
