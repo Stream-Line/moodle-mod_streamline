@@ -14,7 +14,6 @@
 }
 
 .input-buttons button{
-    width: auto;
     display: inline;
 }
 
@@ -34,14 +33,17 @@
     height: 50px;
 }
 
-.post-contents{
+.post-contents, .post-options{
     margin-left: 60px;
 }
 
-.post-contents-header a, p{
+.post-contents a, .post-contents p{
     display: inline;
-    margin-left: 5px;
-} 
+}
+
+.post-contents a{
+    margin-right: 5px;
+}
 
 .post-username{
     font: bold;
@@ -61,6 +63,22 @@
     display: none;
 }
 
+.post-reply-btn {
+    font-size: 0.8em;
+    background: none;
+    box-shadow: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: #808080;
+}
+
+.post-reply-btn:hover {
+    background: none;
+    color: #404040;
+    cursor: pointer;
+    cursor: hand;
+}
 
 /*CSS for Forum Title*/
 

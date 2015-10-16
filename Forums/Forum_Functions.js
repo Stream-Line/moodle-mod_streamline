@@ -26,10 +26,7 @@ socket.on('loadedF', loadHistory);
 */
 
 /* global getUser, HyperLinks */
-var prefix = ""; // variable to hold whether post is new or a reply
 var cid, huid, uid; // global variables for reference
-
-//var postIndex = 0; // temp variable to hold number of posts
 
 /*
 	Initialises global variables for ease of use. Course ID and User ID are
@@ -39,56 +36,9 @@ function init(courseid, hasheduserid, userid){
 	this.cid = courseid;
 	this.huid = hasheduserid;
 	this.uid = userid;
-	setupEventHandlers();
-	getUser(cid, uid, "displaypicture", function(code){
-		$("#forum-user-dp-main").html(code);
-		$("#forum-user-dp-reply").html(code);
+	getUser(cid, uid, "displaypicture", function(code){ // get user display pic
+		$("#forum-parent").prepend(newForumTextArea("n|", code))
 	});
-}
-
-/*
-	Adds the event handlers to the buttons and textareas in Forums.php
-*/
-function setupEventHandlers(){
-	// setup input for new posts
-	$("#btn-send-main").click(function(){
-		prefix = "n|"; // set prefix to new post
-		PostF($("#forum-textarea-main").val());
-		$("#forum-input-btns-main").addClass("hidden");
-		$("#forum-textarea-main").val("");
-	});
-	$("#forum-textarea-main").focus(function(){
-		var elem = document.getElementById("forum-input-btns-main");
-		if(elem.classList.contains("hidden"))
-			elem.classList.remove("hidden");
-	});
-	$("#btn-cancel-main").click(function(){
-		$("#forum-input-btns-main").addClass("hidden");
-	});
-	
-	// setup input for replies
-	$("#btn-send-reply").click(function(){
-		prefix = $(this).parent().parent().parent().attr("id") + "|"; // set prefix to post being replied
-		PostF($("#forum-textarea-reply").val());
-		$("#forum-input-reply").addClass("hidden");
-		$("#forum-textarea-reply").val("");
-	});
-	$("#btn-cancel-reply").click(function(){
-		$("#forum-input-reply").addClass("hidden");
-	});
-}
-
-/*
-	Called when the user clicks Reply. Pid is the id of the post that the user
-	is replying. Changes the location of the text input and Send button to bellow
-	post pid and sets the prefix to pid.
-*/
-function Reply(pid){
-	$("#forum-input-reply").insertAfter($("#" + pid).children("button")[0]);
-	
-	var elem = document.getElementById("forum-input-reply");
-	if(elem.classList.contains("hidden"))
-		elem.classList.remove("hidden"); // show elem if hidden
 }
 
 /*
@@ -106,13 +56,6 @@ function extractPostData(post){
 	};
 }
 
-/*
-	Called when the user clicks send. Sends the formatted post to the server
-	and clears the text input. It also hides the 
-*/
-function PostF(message){
-	socket.emit('Forum', (prefix + message), cid, huid, cid.toString());
-}
 
 /*
 	Loads the forum history in order by recursively calling itself, after the 
@@ -121,48 +64,119 @@ function PostF(message){
 function loadHistory(history){
 	if(!history){
 		$("#forum-loading").remove();
-		$("#forum-no-history").removeClass("hidden");
+		$("#forum-no-history").removeClass("forum-hidden");
 	} else if(history.length > 0){
 		var post = history.shift();
 		var data = extractPostData(post);
 		getUser(cid, data["uid"], "fullname", function(name){ // send an ajax request for users fullname
 			getUser(cid, data["uid"], "displaypicture", function(dp){ // send ajax request for dp in html
-				var div = Post(data["npid"], data["msg"], data["uid"], name, dp, data["date"]);
-				if(data["pid"] == "n"){ // new post
-					$('#forum-area').prepend(div);
-				} else { // reply post
-					$('#'+data["pid"]).append(div);
-					div.classList.add("post-reply");
-				}
-				loadHistory(history);
+				getUser(cid, data["uid"], "profile", function(profile){ // send ajax request for user profile url
+					var div = newPost(data["npid"], data["msg"], data["uid"], name, dp, data["date"], profile);
+					if(data["pid"] == "n"){ // new post
+						$('#forum-area').prepend(div);
+					} else { // reply post
+						var p = $('#'+data["pid"]);
+						var msg = div.getElementsByClassName("post-message")[0];
+						var user = p.find(".post-profile")[0].cloneNode(true);
+						user.textContent = "+" + user.textContent;
+						msg.innerHTML = user.outerHTML + msg.innerHTML;
+						div.classList.add("post-reply");
+						((p.parent().attr("id") != "forum-area") ? p.parent() : p).append(div);
+					}
+					loadHistory(history);
+				});
 			});
 		});
 	} else {
 		$("#forum-loading").remove();
 		$("#forum-no-history").remove();
-		$("#forum-area").removeClass("hidden");
+		$("#forum-area").removeClass("forum-hidden");
 	}
 }
 
 /*
-	Creates a post with id pid and utilises newUserDP, newPostContents and 
-	newReplyButton. Returns a new fully formatted and filled div.
+	Called when the user clicks send. Sends the formatted post to the server
+	and clears the text input. It also hides the 
 */
-function Post(pid, message, sid, name, dp, time){
+function PostF(message){
+	socket.emit('Forum', message, cid, huid, cid.toString());
+}
+
+/*
+	Creates a new text area for the user to type into and sumbit either a
+	new forum post, or forum reply. Requires the prefix the post will send and
+	the html code for the user dp, from the getUser, then returns a formatted,
+	fully handled div DOM element.
+*/
+function newForumTextArea(prefix, dpCode){
+	var div = document.createElement("div"); // main div
+	div.classList.add("forum-post");
+	
+	div.appendChild(newUserDP(dpCode)); // add user dp to main div
+	
+	var input = document.createElement("div"); // div for textarea
+	input.classList.add("forum-input");
+	var textarea = document.createElement("textarea");
+	input.appendChild(textarea);
+	div.appendChild(input); // add textarea input to main div
+	
+	var buttons = document.createElement("div");
+	buttons.classList.add("input-buttons");
+	buttons.classList.add("forum-hidden");
+	
+	var cancel = document.createElement("button");
+	cancel.textContent = "Cancel";
+	buttons.appendChild(cancel);
+	
+	var send = document.createElement("button");
+	send.textContent = "Send";
+	send.classList.add("btn-blue");
+	buttons.appendChild(send);
+	div.appendChild(buttons); // add buttons to main div
+	
+	// add event handlers
+	textarea.onfocus = function(){
+		if(buttons.classList.contains("forum-hidden"))
+			buttons.classList.remove("forum-hidden");
+	};
+	
+	var remove = function(){
+		if(prefix == "n|")
+			buttons.classList.add("forum-hidden");
+		else
+			div.parentNode.removeChild(div);
+	};
+	
+	cancel.onclick = remove;
+	
+	send.onclick = function(){
+		PostF(prefix + textarea.value);
+		textarea.value = "";
+		remove();
+	};
+	
+	return div;
+}
+
+/*
+	Creates a post with id pid and utilises newUserDP, newPostContents and 
+	newReplyButton. Returns a new fully formatted and filled div DOM Element.
+*/
+function newPost(pid, message, sid, name, dp, time, profile){
 	var div = document.createElement("div");
 	div.id = pid;
 	div.classList.add("forum-post");
 	
 	div.appendChild(newUserDP(dp)); // append display picture of user
-	div.appendChild(newPostContents(name, message, time)); // append the contents of the post 
-	div.appendChild(newReplyButton(pid)); // append reply button
+	div.appendChild(newPostContents(name, message, time, profile)); // append the contents of the post 
+	div.appendChild(newPostOptions(pid)); // append options, such as reply
 	
 	return div;
 }
 
 /*	
-	Creates a formatted div that contains the users display picture. It is
-	formatted to sit to the left of a post-contents div.
+	Creates a formatted div DOM Element that contains the users display picture.
+	It is formatted to sit to the left of a post-contents div.
 */
 function newUserDP(html){
 	var div = document.createElement("div"); // main div
@@ -173,10 +187,10 @@ function newUserDP(html){
 }
 
 /*
-	Creates a formatted div that contains the username and message.
+	Creates a formatted div DOM Element that contains the users name and message.
 	It is formatted to sit next to a post-dp div. 
 */
-function newPostContents(name, message, time){
+function newPostContents(name, message, time, profile){
 	var div = document.createElement("div"); // main div
 	div.classList.add("post-contents");
 	
@@ -184,7 +198,9 @@ function newPostContents(name, message, time){
 	hdiv.classList.add("post-contents-header");
 	
 	var user = document.createElement("a");
-	user.href = ""; // get user profile page using getUser
+	user.classList.add("post-profile");
+	user.href = profile;
+	user.target = "_blank";
 	user.textContent = name;
 	hdiv.appendChild(user);
 	
@@ -196,6 +212,7 @@ function newPostContents(name, message, time){
 	div.appendChild(hdiv);
 	
 	var mdiv = document.createElement("div"); // message div
+	mdiv.classList.add("post-message");
 	var msg = document.createElement("p");
 	msg.innerHTML = HyperLinks(message);
 	mdiv.appendChild(msg);
@@ -205,35 +222,39 @@ function newPostContents(name, message, time){
 	return div;
 }
 
+/*
+	Creates a formatted div DOM Element that contains options relative to the
+	post, such as a reply button. It is formatted to sit next to a post-dp div.
+*/
+function newPostOptions(pid){
+	var div = document.createElement("div"); // main div
+	div.classList.add("post-options");
+	
+	div.appendChild(newReplyButton(pid)); // reply button
+	
+	return div;
+}
+
 /* 
-	Creates a formatted <button> that call Reply() with the provided pid.
+	Creates a formatted button DOM Element that appends a newForumTextArea, used 
+	to reply to a post, after itself but before any other element.
 */
 function newReplyButton(pid){
 	var reply_btn = document.createElement("button");
-	reply_btn.classList.add("btn-blue");
+	reply_btn.classList.add("post-reply-btn");
 	reply_btn.textContent = "Reply";
-	reply_btn.onclick = function() { Reply(pid); };
+	reply_btn.onclick = function() {
+		getUser(cid, uid, "displaypicture", function(code){ // get user display pic
+			var input = newForumTextArea(pid+"|", code);
+			input.classList.add("post-reply");
+			var parent = reply_btn.parentNode.parentNode;
+			if(parent.parentNode.getAttribute("id") != "forum-area")
+				parent.parentNode.insertBefore(input, parent.nextSibling);
+			else
+				parent.insertBefore(input, parent.children[3]);
+			input.getElementsByTagName("textarea")[0].focus();
+		});
+	};
 	
 	return reply_btn;
 }
-
-/*	ideal forum post div
-    <div id="p001" class="forum-post">
-		<div class="post-dp">
-			<img src="https://v.dreamwidth.org/97845/324" />
-		</div>
-		<div class="post-contents">
-			<div id="post-contents-header">
-				<a href="user/profile.html">Username</a>
-				<p class="post-date">12:55 21/08/15</p>
-			</div>
-			<div>
-			    <p>This is a test message</p>
-			</div>
-		</div>
-		<button class="btn-blue" onclick="Reply(p001)">Reply</button>
-	</div>
-	
-	jwt
-	
-*/
