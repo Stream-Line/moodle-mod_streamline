@@ -14,9 +14,13 @@
 
 	$sql =  "SELECT id, quizid, streamlineid, courseid, userid, answers FROM mdl_streamline_quiz WHERE streamlineid= '".$sid."' AND courseid= '".$cid."' AND quizid= '".$qid."' AND userid= '".$uid."'";
 	$record = $DB->get_record_sql($sql); //array($string_sid ,$string_cid ,$string_qid)
-
-	$array = explode(";", $record->answers);
-	$answers = array_filter($array);
-
+	
+	if($record != null){
+		$array = explode(";", $record->answers);
+		$answers = array_filter($array);
+	} else {
+		$answers = [];
+	}
+	
 	echo json_encode($answers);
 ?>
